@@ -7,7 +7,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="version">V 2.2.3 beta</string>
+    <string name="version">v2.2.3 beta</string>
 
     <string-array name="query_lib">
         <item>anywords</item>

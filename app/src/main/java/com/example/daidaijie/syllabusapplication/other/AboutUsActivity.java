@@ -48,7 +48,7 @@ public class AboutUsActivity extends BaseActivity {
         mIOSDeveloperHeadImageView.setImageURI("https://avatars3.githubusercontent.com/u/11157226?v=3&s=64");
         mBackendDeveloperHeadImageView.setImageURI("https://avatars1.githubusercontent.com/u/12378280?v=3&s=64");
         mAndroidDeveloperHeadImageView.setImageURI("https://avatars3.githubusercontent.com/u/12541192?v=3&s=64");
-        mVersionTextView.setText(App.versionName);
+//        mVersionTextView.setText(App.versionName);
     }
 
     @Override
