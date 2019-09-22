@@ -116,6 +116,7 @@ public class UpdateActivity extends BaseActivity implements UpdateContract.view,
     public void showInfo(final UpdateInfoBean updateInfoBean) {
         int newVersionCode = Integer.parseInt(updateInfoBean.getVersionCode());
         // 更新按钮
+        Log.d(TAG, "showInfo: " + newVersionCode + " " + App.versionCode);
         if (newVersionCode > App.versionCode) {
             mUpdateButton.setVisibility(View.VISIBLE);
             mUpdateButton.setOnClickListener(new View.OnClickListener() {
