@@ -1,25 +1,15 @@
-# STUSyllabus  课表2.2.0.1 已发布 
+## 汕大课程表v2.2.3
 
-## 课表已有功能  
+#### 新版说明 
+- 修复只能显示16周课程的bug
+- 解决部分图片资源失真的问题
+- 更新相关系统配置，带来更好的用户体验
+- MY STU模块因后台数据问题导致缺少英语课程信息，课程作业信息只能是纯文本（无链接）故更多信息以校方官网为主为准。
+- 更多功能敬请期待……
 
-### 主界面  
- - Banner轮播  
- - 各个页面的跳转  
+——by 汕大课程表Android团队
 
-[主界面.jpg](https://github.com/STUFelix/STUSyllabus/blob/master/image/%E4%B8%BB%E7%95%8C%E9%9D%A2.jpg)
+![正常显示所有课程.jpg](https://github.com/jarvisyuen/Syllabus/blob/master/image/syllabus.jpg)
 
-### 课表界面  
-
-[课程表界面.jpg](https://github.com/STUFelix/STUSyllabus/blob/master/image/%E8%AF%BE%E7%A8%8B%E8%A1%A8%E7%95%8C%E9%9D%A2.jpg)
-
-## 新添功能  
-
-#### mystu界面  
- - 查看作业与课程讨论  
- - 下载课件  
-  
-#### 饭卡界面  
- - 查看余额  
- - 查看消费流水  
-  
-  
+![解决图片资源失真.jpg](https://github.com/jarvisyuen/Syllabus/blob/master/image/meal_card.jpg)
+ 
