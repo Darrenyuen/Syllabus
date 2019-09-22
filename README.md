@@ -9,7 +9,7 @@
 
 ——by 汕大课程表Android团队
 
-[正常显示所有课程.jpg](https://github.com/jarvisyuen/Syllabus/blob/master/image/syllabus.jpg)
+![正常显示所有课程.jpg](https://github.com/jarvisyuen/Syllabus/blob/master/image/syllabus.jpg)
 
-[解决图片资源失真.jpg](https://github.com/jarvisyuen/Syllabus/blob/master/image/meal_card.jpg)
+![解决图片资源失真.jpg](https://github.com/jarvisyuen/Syllabus/blob/master/image/meal_card.jpg)
  
