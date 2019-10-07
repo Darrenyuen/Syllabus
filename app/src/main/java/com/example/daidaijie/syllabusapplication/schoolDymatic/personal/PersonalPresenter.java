@@ -2,6 +2,7 @@ package com.example.daidaijie.syllabusapplication.schoolDymatic.personal;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.example.daidaijie.syllabusapplication.App;
 import com.example.daidaijie.syllabusapplication.bean.UserBaseBean;
@@ -35,6 +36,8 @@ import rx.schedulers.Schedulers;
  */
 
 public class PersonalPresenter implements PersonalContract.presenter {
+
+    private String TAG = this.getClass().getSimpleName();
 
     IUserModel mIUserModel;
 
@@ -107,10 +110,14 @@ public class PersonalPresenter implements PersonalContract.presenter {
 
     @Override
     public void pushData(final String nickName, final String profile) {
-        mIPersonalModel.postPhotoToBmob(newImageFileName, new IPersonalModel.OnPostPhotoCallBack() {
+        Log.d(TAG, "pushData: " + newImageFileName);
+        Log.d(TAG, "pushData: " + nickName);
+        Log.d(TAG, "pushData: " + profile);
+        mIPersonalModel.postPhotoToSmms(newImageFileName, new IPersonalModel.OnPostPhotoCallBack() {
             @Override
             public void onSuccess(final String photoJson) {
                 //LoggerUtil.e(photoJson);
+                Log.d(TAG, "onSuccess: " + photoJson);
                 mIPersonalModel.updateUserInfo(nickName, profile, photoJson)
                         .subscribe(new Subscriber<Void>() {
                             @Override
@@ -151,6 +158,7 @@ public class PersonalPresenter implements PersonalContract.presenter {
 
             @Override
             public void onFail(String msg) {
+                Log.d(TAG, "onFail: ");
                 mView.showFailMessage(msg);
             }
         });

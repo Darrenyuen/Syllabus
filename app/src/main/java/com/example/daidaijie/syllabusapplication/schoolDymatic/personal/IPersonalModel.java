@@ -19,5 +19,5 @@ public interface IPersonalModel {
 
     Observable<Void> updateUserInfo(String nickName, String profile, @Nullable String img);
 
-    void postPhotoToBmob(@Nullable String headImage, OnPostPhotoCallBack onPostPhotoCallBack);
+    void postPhotoToSmms(@Nullable String headImage, OnPostPhotoCallBack onPostPhotoCallBack);
 }

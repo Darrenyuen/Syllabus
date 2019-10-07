@@ -1,25 +1,30 @@
 package com.example.daidaijie.syllabusapplication.schoolDymatic.personal;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
-import com.example.daidaijie.syllabusapplication.bean.BmobPhoto;
 import com.example.daidaijie.syllabusapplication.bean.HttpResult;
-import com.example.daidaijie.syllabusapplication.bean.QiNiuImageInfo;
+import com.example.daidaijie.syllabusapplication.bean.SmmsResult;
 import com.example.daidaijie.syllabusapplication.bean.UpdateUserBody;
+import com.example.daidaijie.syllabusapplication.retrofitApi.PushImageToSmmsApi;
 import com.example.daidaijie.syllabusapplication.retrofitApi.PushPostApi;
 import com.example.daidaijie.syllabusapplication.retrofitApi.UpdateUserApi;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
-import com.example.daidaijie.syllabusapplication.util.ImageUploader;
 import com.example.daidaijie.syllabusapplication.util.LoggerUtil;
 import com.example.daidaijie.syllabusapplication.util.RetrofitUtil;
 
 import java.io.File;
 
+import javax.inject.Inject;
+
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UploadFileListener;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.Observable;
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -31,16 +36,21 @@ import rx.schedulers.Schedulers;
 
 public class PersonalModel implements IPersonalModel {
 
+    private String TAG = this.getClass().getSimpleName();
+
     UpdateUserApi mUpdateUserApi;
 
     IUserModel mIUserModel;
 
     PushPostApi pushPostApi;
 
-    public PersonalModel(UpdateUserApi updateUserApi, PushPostApi pushPostApi, IUserModel userModel) {
+    PushImageToSmmsApi pushImageToSmmsApi;
+
+    public PersonalModel(UpdateUserApi updateUserApi, PushPostApi pushPostApi, IUserModel userModel, PushImageToSmmsApi pushImageToSmmsApi) {
         mUpdateUserApi = updateUserApi;
         this.pushPostApi = pushPostApi;
         mIUserModel = userModel;
+        this.pushImageToSmmsApi = pushImageToSmmsApi;
     }
 
 
@@ -73,14 +83,14 @@ public class PersonalModel implements IPersonalModel {
     }
 
     @Override
-    public void postPhotoToBmob(@Nullable String headImage, final OnPostPhotoCallBack onPostPhotoCallBack) {
+    public void postPhotoToSmms(@Nullable String headImage, final OnPostPhotoCallBack onPostPhotoCallBack) {
         //如果没有选择头像，那么直接返回
         if (headImage == null) {
             onPostPhotoCallBack.onSuccess(null);
             return;
         }
 
-        //将头像传到bmob
+        //将头像传到smms
         Observable.just(headImage)
                 .subscribeOn(Schedulers.io())
                 .map(new Func1<String, File>() {
@@ -89,8 +99,40 @@ public class PersonalModel implements IPersonalModel {
                         return new File(s);
                     }
                 })
+                .map(new Func1<File, SmmsResult>() {
+                    SmmsResult mSmmsResult;
+                    @Override
+                    public SmmsResult call(File file) {
+                        Log.d(TAG, "call: " + file.getName());
+                        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
+
+                        pushImageToSmmsApi.pushImage(body)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<SmmsResult>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        Log.d(TAG, "onError: ");
+                                    }
+
+                                    @Override
+                                    public void onNext(SmmsResult smmsResult) {
+                                        Log.d(TAG, "onNext: " + smmsResult.isSuccess());
+                                        mSmmsResult = smmsResult;
+                                    }
+                                });
+                        return mSmmsResult;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<File>() {
+                .subscribe(new Subscriber<SmmsResult>() {
 
                     String url;
 
@@ -101,22 +143,30 @@ public class PersonalModel implements IPersonalModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        LoggerUtil.e("aaaaa");
+                        Log.d(TAG, "onError: " + "last");
                         onPostPhotoCallBack.onFail("图片上传失败");
                     }
 
                     @Override
-                    public void onNext(File file) {
-                        final BmobFile bmobFile = new BmobFile(file);
-                        bmobFile.uploadblock(new UploadFileListener() {
-                            @Override
-                            public void done(BmobException e) {
-                                if (e == null) {
-                                    url = bmobFile.getFileUrl();
-                                    onPostPhotoCallBack.onSuccess(url);
-                                }
-                            }
-                        });
+                    public void onNext(SmmsResult smmsResult) {
+                        Log.d(TAG, "onNext: " + smmsResult.isSuccess());
+                        if (smmsResult.isSuccess()) {
+                            SmmsResult.Data data = smmsResult.data;
+                            url = data.getUrl();
+                            Log.d(TAG, "onNext: " + url);
+                            onPostPhotoCallBack.onSuccess(url);
+                        }
+//                        final BmobFile bmobFile = new BmobFile(file);
+//                        bmobFile.uploadblock(new UploadFileListener() {
+//                            @Override
+//                            public void done(BmobException e) {
+//                                if (e == null) {
+//                                    url = bmobFile.getFileUrl();
+//                                    onPostPhotoCallBack.onSuccess(url);
+//                                }
+//                            }
+//                        });
+
                     }
                 });
 

@@ -3,6 +3,7 @@ package com.example.daidaijie.syllabusapplication.schoolDymatic.personal;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import butterknife.BindView;
 import info.hoang8f.widget.FButton;
 
 public class PersonalActivity extends BaseActivity implements PersonalContract.view {
+    private final String TAG = this.getClass().getSimpleName();
 
     @BindView(R.id.titleTextView)
     TextView mTitleTextView;
@@ -77,6 +79,7 @@ public class PersonalActivity extends BaseActivity implements PersonalContract.v
 
     @Override
     public void showUserBase(UserBaseBean userBaseBean) {
+        Log.d(TAG, "showUserBase: " + userBaseBean.getPhoto());
         mHeadImageDraweeView.setImageURI(userBaseBean.getPhoto());
         mNiceNameEditText.setText(userBaseBean.getNickname());
         mAccountEditText.setText(userBaseBean.getAccount());
