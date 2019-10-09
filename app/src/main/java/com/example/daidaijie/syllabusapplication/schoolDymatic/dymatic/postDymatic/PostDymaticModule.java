@@ -1,9 +1,11 @@
 package com.example.daidaijie.syllabusapplication.schoolDymatic.dymatic.postDymatic;
 
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SmmsRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.user.LoginUser;
 import com.example.daidaijie.syllabusapplication.di.scope.PerActivity;
 import com.example.daidaijie.syllabusapplication.retrofitApi.PostActivityApi;
+import com.example.daidaijie.syllabusapplication.retrofitApi.PushImageToSmmsApi;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
 
 import dagger.Module;
@@ -32,8 +34,8 @@ public class PostDymaticModule {
     @PerActivity
     @Provides
     IPostDymaticModel getIPostDymaticModel(@SchoolRetrofit Retrofit retrofit,
-                                           @LoginUser IUserModel userModel) {
-        return new PostDymaticModel(retrofit.create(PostActivityApi.class), userModel);
+                                           @LoginUser IUserModel userModel, @SmmsRetrofit Retrofit smmsRetrofit) {
+        return new PostDymaticModel(retrofit.create(PostActivityApi.class), userModel, smmsRetrofit.create(PushImageToSmmsApi.class));
     }
 
 }

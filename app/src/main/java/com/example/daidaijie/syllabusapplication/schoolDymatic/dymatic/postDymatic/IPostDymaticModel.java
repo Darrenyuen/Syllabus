@@ -35,7 +35,7 @@ public interface IPostDymaticModel {
 
     List<String> getPhotoImgs();
 
-    void postPhotoToBmob(OnPostCallBack onPostCallBack);
+    void postPhotoToSmms(OnPostCallBack onPostCallBack);
 
     Observable<Void> pushContent(@Nullable String photoListJson,
                                  String msg, String source, String url, String locate, boolean hasTime);

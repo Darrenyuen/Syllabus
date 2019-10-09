@@ -8,6 +8,7 @@ import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.LibraryRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.OARetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SmmsRetrofit;
 import com.google.gson.Gson;
 
 import javax.inject.Singleton;
@@ -30,6 +31,9 @@ public interface AppComponent {
 
     @BmobRetrofit
     Retrofit getBombRetrofit();
+
+    @SmmsRetrofit
+    Retrofit getSmmsRetrofit();
 
     @OARetrofit
     Retrofit getOARetrofit();

@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -164,8 +165,9 @@ public class CirclesAdapter extends RecyclerView.Adapter<CirclesAdapter.ViewHold
 
         if (postBean.getPhoto_list_json() != null && !postBean.getPhoto_list_json().isEmpty()) {
             holder.mPhotoRecyclerView.setVisibility(View.VISIBLE);
+            Log.d(TAG, "onBindViewHolder: " + postBean.getPhoto_list_json());
             PhotoInfo photoInfo = GsonUtil.getDefault()
-                    .fromJson(postBean.getPhoto_list_json(), PhotoInfo.class);
+                    .fromJson(postBean.getPhoto_list_json(), PhotoInfo.class);//bug
             PhotoAdapter photoAdapter = new PhotoAdapter(mActivity, photoInfo,
                     mWidth);
             holder.mPhotoRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity,

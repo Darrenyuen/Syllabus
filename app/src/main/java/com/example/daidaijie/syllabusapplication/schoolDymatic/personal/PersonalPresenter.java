@@ -110,9 +110,7 @@ public class PersonalPresenter implements PersonalContract.presenter {
 
     @Override
     public void pushData(final String nickName, final String profile) {
-        Log.d(TAG, "pushData: " + newImageFileName);
-        Log.d(TAG, "pushData: " + nickName);
-        Log.d(TAG, "pushData: " + profile);
+        mView.showLoading(true);
         mIPersonalModel.postPhotoToSmms(newImageFileName, new IPersonalModel.OnPostPhotoCallBack() {
             @Override
             public void onSuccess(final String photoJson) {
@@ -137,11 +135,13 @@ public class PersonalPresenter implements PersonalContract.presenter {
                                 mView.showSuccessMessage("更新成功");
 
                                 EventBus.getDefault().post(new UpdateUserInfoEvent());
+                                mView.showLoading(false);
                                 mView.toMain();
                             }
 
                             @Override
                             public void onError(Throwable e) {
+                                mView.showLoading(false);
                                 if (e.getMessage() == null) {
                                     mView.showFailMessage("更新失败");
                                 } else {
@@ -158,6 +158,7 @@ public class PersonalPresenter implements PersonalContract.presenter {
 
             @Override
             public void onFail(String msg) {
+                mView.showLoading(false);
                 Log.d(TAG, "onFail: ");
                 mView.showFailMessage(msg);
             }

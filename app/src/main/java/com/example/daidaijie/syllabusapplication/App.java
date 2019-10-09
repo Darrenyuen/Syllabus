@@ -58,7 +58,7 @@ public class App extends Application {
 
         context = getApplicationContext();
 
-        CrashReport.initCrashReport(context, "900058134", isDebug);
+        CrashReport.initCrashReport(context, "fe2e19f91f", isDebug);
 
         RealmConfiguration.Builder builder = new RealmConfiguration.Builder(this)
                 .schemaVersion(userVersion);

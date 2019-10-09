@@ -2,6 +2,7 @@ package com.example.daidaijie.syllabusapplication.main;
 
 import android.Manifest;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.daidaijie.syllabusapplication.App;
 import com.example.daidaijie.syllabusapplication.ILoginModel;
@@ -27,6 +28,7 @@ import rx.functions.Action1;
  */
 
 public class MainPresenter implements MainContract.presenter {
+    private String TAG = this.getClass().getSimpleName();
 
     IUpdateModel mIUpdateModel;
 
@@ -54,7 +56,7 @@ public class MainPresenter implements MainContract.presenter {
 
     @Override
     public void start() {
-
+//*********************
         MobclickAgent.onProfileSignIn(mUserModel.getUserInfoNormal().getUsername());
 
         showUserInfo();

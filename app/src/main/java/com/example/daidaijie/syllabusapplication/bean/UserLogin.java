@@ -10,7 +10,6 @@ import io.realm.annotations.PrimaryKey;
 public class UserLogin extends RealmObject{
 
     private String username;
-
     private String password;
 
     public UserLogin() {

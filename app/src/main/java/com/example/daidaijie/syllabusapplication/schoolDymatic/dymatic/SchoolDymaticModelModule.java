@@ -1,9 +1,11 @@
 package com.example.daidaijie.syllabusapplication.schoolDymatic.dymatic;
 
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SmmsRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.user.LoginUser;
 import com.example.daidaijie.syllabusapplication.di.scope.PerModule;
 import com.example.daidaijie.syllabusapplication.retrofitApi.DeletePostApi;
+import com.example.daidaijie.syllabusapplication.retrofitApi.PushImageToSmmsApi;
 import com.example.daidaijie.syllabusapplication.retrofitApi.SchoolDymaticApi;
 import com.example.daidaijie.syllabusapplication.retrofitApi.ThumbUpApi;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;

@@ -143,8 +143,6 @@ public class MainActivity extends BaseActivity implements
     ItemCardLayout mToMyStuCardItem;
     @BindView(R.id.toMealCardItem)
     ItemCardLayout mToMealCardItem;
-    //@BindView(R.id.toToDoItem)
-    //ItemCardLayout mTODOItem;
 
     RelativeLayout navHeadRelativeLayout;
     SimpleDraweeView headImageDraweeView;

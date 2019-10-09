@@ -3,25 +3,23 @@ package com.example.daidaijie.syllabusapplication.schoolDymatic.circle.postConte
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.daidaijie.syllabusapplication.App;
 import com.example.daidaijie.syllabusapplication.bean.HttpResult;
 import com.example.daidaijie.syllabusapplication.bean.PhotoInfo;
 import com.example.daidaijie.syllabusapplication.bean.PostContent;
-import com.example.daidaijie.syllabusapplication.bean.QiNiuImageInfo;
+import com.example.daidaijie.syllabusapplication.bean.SmmsResult;
+import com.example.daidaijie.syllabusapplication.retrofitApi.PushImageToSmmsApi;
 import com.example.daidaijie.syllabusapplication.retrofitApi.PushPostApi;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
 import com.example.daidaijie.syllabusapplication.util.GsonUtil;
-import com.example.daidaijie.syllabusapplication.util.ImageUploader;
 import com.example.daidaijie.syllabusapplication.util.LoggerUtil;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UploadFileListener;
-import id.zelory.compressor.Compressor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -34,16 +32,21 @@ import rx.schedulers.Schedulers;
 
 public class PostContentModel implements IPostContentModel {
 
+    private String TAG = this.getClass().getSimpleName();
+
     private List<String> mPhotoImgs;
 
     private IUserModel mIUserModel;
 
     PushPostApi pushPostApi;
 
-    public PostContentModel(IUserModel IUserModel, PushPostApi pushPostApi) {
+    PushImageToSmmsApi pushImageToSmmsApi;
+
+    public PostContentModel(IUserModel IUserModel, PushPostApi pushPostApi, PushImageToSmmsApi pushImageToSmmsApi) {
         mIUserModel = IUserModel;
         this.pushPostApi = pushPostApi;
         mPhotoImgs = new ArrayList<>();
+        this.pushImageToSmmsApi = pushImageToSmmsApi;
     }
 
     @Override
@@ -52,14 +55,14 @@ public class PostContentModel implements IPostContentModel {
     }
 
     @Override
-    public void postPhotoToBmob(final OnPostPhotoCallBack onPostPhotoCallBack) {
+    public void postPhotoToSmms(final OnPostPhotoCallBack onPostPhotoCallBack) {
         //如果没有照片，那么直接成功、返回
         if (mPhotoImgs.size() == 0) {
             onPostPhotoCallBack.onSuccess(null);
             return;
         }
 
-        //图片上传到bmob
+        //图片上传到sm.ms
         Observable.from(mPhotoImgs)
                 .subscribeOn(Schedulers.io())
                 .map(new Func1<String, File>() {
@@ -82,7 +85,7 @@ public class PostContentModel implements IPostContentModel {
 
                     @Override
                     public void onCompleted() {
-                        //onPostPhotoCallBack.onSuccess(photoListJsonString);
+
                     }
 
                     @Override
@@ -92,93 +95,41 @@ public class PostContentModel implements IPostContentModel {
 
                     @Override
                     public void onNext(File file) {
-                        //将图片上传到bmob
-                        final BmobFile bmobFile = new BmobFile(file);
-                        bmobFile.uploadblock(new UploadFileListener() {
+                        //将图片上传到sm.ms
+                        Log.d(TAG, "postPhotoToSmms: " + file.getName());
+                        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                        MultipartBody.Part body = MultipartBody.Part.createFormData("smfile", file.getName(), requestFile);
+                        pushImageToSmmsApi.pushImage(body)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<SmmsResult>() {
+                                    @Override
+                                    public void onCompleted() {
 
-                            @Override
-                            public void done(BmobException e) {
-                                if (e == null) {
-                                    PhotoInfo.PhotoListBean photoListBean = new PhotoInfo.PhotoListBean();
-                                    //        LoggerUtil.e(bmobFile.getFileUrl());
-                                    photoListBean.setSize_big(bmobFile.getFileUrl());
-                                    photoListBean.setSize_small(bmobFile.getFileUrl());
-                                    photoInfo.getPhoto_list().add(photoListBean);
-                                    if (photoInfo.getPhoto_list().size() == mPhotoImgs.size()) {
-                                        //将json post到服务器
-                                        String photoListJsonString = GsonUtil.getDefault()
-                                                .toJson(photoInfo);
-                                        LoggerUtil.e(photoListJsonString);
-                                        onPostPhotoCallBack.onSuccess(photoListJsonString);
                                     }
-                                } else {
-                                    onPostPhotoCallBack.onFail("图片上传失败!");
-                                }
-                            }
 
-                            @Override
-                            public void doneError(int code, String msg) {
-                                onPostPhotoCallBack.onFail("图片上传失败!");
-                            }
-                        });
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        onPostPhotoCallBack.onFail("图片上传失败!");
+                                    }
+
+                                    @Override
+                                    public void onNext(SmmsResult smmsResult) {
+                                        if (smmsResult.getStatus().equals("success")) {
+                                            PhotoInfo.PhotoListBean photoListBean = new PhotoInfo.PhotoListBean();
+                                            photoListBean.setSize_big(smmsResult.getData().getPicUrl());
+                                            photoListBean.setSize_small(smmsResult.getData().getPicUrl());
+                                            photoInfo.getPhoto_list().add(photoListBean);
+                                            if (photoInfo.getPhoto_list().size() == mPhotoImgs.size()) {
+                                                //将json post到服务器
+                                                String photoListJsonString = GsonUtil.getDefault().toJson(photoInfo);
+                                                onPostPhotoCallBack.onSuccess(photoListJsonString);
+                                            }
+                                        }
+                                    }
+                                });
                     }
                 });
-//
-        //图片上传到七牛云、已失效
-//        Observable.from(mPhotoImgs)
-//                .subscribeOn(Schedulers.io())
-//                .map(new Func1<String, File>() {
-//                    @Override
-//                    public File call(String s) {
-//                        return new File(s.substring("file://".length(), s.length()));
-//                    }
-//                })
-//                .observeOn(Schedulers.computation())
-//                .flatMap(new Func1<File, Observable<File>>() {
-//                    @Override
-//                    public Observable<File> call(File file) {
-//                        return Compressor.getDefault(App.getContext())
-//                                .compressToFileAsObservable(file);
-//                    }
-//                })
-//                .observeOn(Schedulers.io())
-//                .flatMap(new Func1<File, Observable<QiNiuImageInfo>>() {
-//                    @Override
-//                    public Observable<QiNiuImageInfo> call(File file) {
-//                        return ImageUploader.getObservableAsQiNiu(file);
-//                    }
-//                })
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<QiNiuImageInfo>() {
-//                    PhotoInfo photoInfo = new PhotoInfo();
-//
-//                    @Override
-//                    public void onStart() {
-//                        super.onStart();
-//                        photoInfo.setPhoto_list(new ArrayList<PhotoInfo.PhotoListBean>());
-//                    }
-//
-//                    @Override
-//                    public void onCompleted() {
-//                        String photoListJsonString = GsonUtil.getDefault()
-//                                .toJson(photoInfo);
-//                        onPostPhotoCallBack.onSuccess(photoListJsonString);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        LoggerUtil.printStack(e);
-//                        onPostPhotoCallBack.onFail("图片上传失败");
-//                    }
-//
-//                    @Override
-//                    public void onNext(QiNiuImageInfo qiNiuImageInfo) {
-//                        PhotoInfo.PhotoListBean photoListBean = new PhotoInfo.PhotoListBean();
-//                        photoListBean.setSize_big(qiNiuImageInfo.getMsg());
-//                        photoListBean.setSize_small(qiNiuImageInfo.getMsg());
-//                        photoInfo.getPhoto_list().add(photoListBean);
-//                    }
-//                });
     }
 
     @Override

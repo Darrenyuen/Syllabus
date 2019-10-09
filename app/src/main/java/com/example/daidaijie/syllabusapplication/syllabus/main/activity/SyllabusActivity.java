@@ -40,6 +40,7 @@ import com.example.daidaijie.syllabusapplication.event.SettingWeekEvent;
 import com.example.daidaijie.syllabusapplication.event.ShowTimeEvent;
 import com.example.daidaijie.syllabusapplication.event.SyllabusEvent;
 import com.example.daidaijie.syllabusapplication.syllabus.SyllabusComponent;
+import com.example.daidaijie.syllabusapplication.syllabus.customizelesson.CustomizeActivity;
 import com.example.daidaijie.syllabusapplication.syllabus.main.fragment.SyllabusFragment;
 import com.example.daidaijie.syllabusapplication.syllabus.main.fragment.SyllabusFragmentContract;
 import com.example.daidaijie.syllabusapplication.user.UserComponent;
@@ -222,7 +223,6 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
                 }
             }
         });
-
     }
 
     @Override
@@ -237,7 +237,6 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
         super.onSaveInstanceState(outState);
         outState.putInt(SAVED_PAGE_POSITION, mSyllabusViewPager.getCurrentItem());
     }
-
 
     private void setToolBarTitle(String title) {
         mTitleTextView.setText(title);
@@ -309,9 +308,9 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
 //            Intent intent = new Intent(this, SyllabusCollectionActivity.class);
 //            startActivity(intent);
         } else if (id == R.id.nav_add_lesson) {//添加课程
-            Toast.makeText(this, "正在开发中...", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(this, AddLessonActivity.class);
-//            startActivity(intent);
+//            Toast.makeText(this, "正在开发中...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, CustomizeActivity.class);
+            startActivity(intent);
         }
         //点击后关闭drawerLayout
         mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -380,6 +379,8 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
     public void showUserInfo(UserInfo userInfo) {
         headImageDraweeView.setImageURI(Uri.parse(userInfo.getAvatar()));
         nicknameTextView.setText(userInfo.getNickname());
+        Log.d(TAG, "showUserInfo: " + userInfo.getToken());
+        Log.d(TAG, "showUserInfo: " + userInfo.getUser_id());
     }
 
     @Override

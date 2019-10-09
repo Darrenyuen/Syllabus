@@ -1,8 +1,10 @@
 package com.example.daidaijie.syllabusapplication.schoolDymatic.circle.postContent;
 
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SmmsRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.user.LoginUser;
 import com.example.daidaijie.syllabusapplication.di.scope.PerActivity;
+import com.example.daidaijie.syllabusapplication.retrofitApi.PushImageToSmmsApi;
 import com.example.daidaijie.syllabusapplication.retrofitApi.PushPostApi;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
 
@@ -32,7 +34,7 @@ public class PostContentModule {
     @PerActivity
     @Provides
     IPostContentModel providePostContentModel(@LoginUser IUserModel userModel,
-                                              @SchoolRetrofit Retrofit retrofit) {
-        return new PostContentModel(userModel, retrofit.create(PushPostApi.class));
+                                              @SchoolRetrofit Retrofit retrofit, @SmmsRetrofit Retrofit smmsRetrofit) {
+        return new PostContentModel(userModel, retrofit.create(PushPostApi.class), smmsRetrofit.create(PushImageToSmmsApi.class));
     }
 }

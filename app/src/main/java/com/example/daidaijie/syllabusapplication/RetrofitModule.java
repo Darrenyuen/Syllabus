@@ -4,6 +4,7 @@ import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.LibraryRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.OARetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SmmsRetrofit;
 
 import javax.inject.Singleton;
 
@@ -38,6 +39,17 @@ public class RetrofitModule {
     public Retrofit provideBmobRetrofit() {
         return new Retrofit.Builder()
                 .baseUrl("https://api.bmob.cn/1/")
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+    @SmmsRetrofit
+    @Provides
+    @Singleton
+    public Retrofit provideSmmsRetrofit() {
+        return new Retrofit.Builder()
+                .baseUrl("https://sm.ms/")
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

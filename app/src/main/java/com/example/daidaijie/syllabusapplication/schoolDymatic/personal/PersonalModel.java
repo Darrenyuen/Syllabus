@@ -10,21 +10,14 @@ import com.example.daidaijie.syllabusapplication.retrofitApi.PushImageToSmmsApi;
 import com.example.daidaijie.syllabusapplication.retrofitApi.PushPostApi;
 import com.example.daidaijie.syllabusapplication.retrofitApi.UpdateUserApi;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
-import com.example.daidaijie.syllabusapplication.util.LoggerUtil;
 import com.example.daidaijie.syllabusapplication.util.RetrofitUtil;
 
 import java.io.File;
 
-import javax.inject.Inject;
-
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UploadFileListener;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.Observable;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -88,87 +81,34 @@ public class PersonalModel implements IPersonalModel {
         if (headImage == null) {
             onPostPhotoCallBack.onSuccess(null);
             return;
-        }
-
-        //将头像传到smms
-        Observable.just(headImage)
-                .subscribeOn(Schedulers.io())
-                .map(new Func1<String, File>() {
-                    @Override
-                    public File call(String s) {
-                        return new File(s);
-                    }
-                })
-                .map(new Func1<File, SmmsResult>() {
-                    SmmsResult mSmmsResult;
-                    @Override
-                    public SmmsResult call(File file) {
-                        Log.d(TAG, "call: " + file.getName());
-                        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
-
-                        pushImageToSmmsApi.pushImage(body)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber<SmmsResult>() {
-                                    @Override
-                                    public void onCompleted() {
-
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable throwable) {
-                                        Log.d(TAG, "onError: ");
-                                    }
-
-                                    @Override
-                                    public void onNext(SmmsResult smmsResult) {
-                                        Log.d(TAG, "onNext: " + smmsResult.isSuccess());
-                                        mSmmsResult = smmsResult;
-                                    }
-                                });
-                        return mSmmsResult;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SmmsResult>() {
-
-                    String url;
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "onError: " + "last");
-                        onPostPhotoCallBack.onFail("图片上传失败");
-                    }
-
-                    @Override
-                    public void onNext(SmmsResult smmsResult) {
-                        Log.d(TAG, "onNext: " + smmsResult.isSuccess());
-                        if (smmsResult.isSuccess()) {
-                            SmmsResult.Data data = smmsResult.data;
-                            url = data.getUrl();
-                            Log.d(TAG, "onNext: " + url);
-                            onPostPhotoCallBack.onSuccess(url);
+        } else {
+            File file = new File(headImage);
+            Log.d(TAG, "postPhotoToSmms: " + file.getName());
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("smfile", file.getName(), requestFile);
+            pushImageToSmmsApi.pushImage(body)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<SmmsResult>() {
+                        @Override
+                        public void onCompleted() {
+                            Log.d(TAG, "onCompleted: ");
                         }
-//                        final BmobFile bmobFile = new BmobFile(file);
-//                        bmobFile.uploadblock(new UploadFileListener() {
-//                            @Override
-//                            public void done(BmobException e) {
-//                                if (e == null) {
-//                                    url = bmobFile.getFileUrl();
-//                                    onPostPhotoCallBack.onSuccess(url);
-//                                }
-//                            }
-//                        });
 
-                    }
-                });
+                        @Override
+                        public void onError(Throwable throwable) {
+                            onPostPhotoCallBack.onFail("图片上传失败");
+                        }
 
+                        @Override
+                        public void onNext(SmmsResult smmsResult) {
+                            Log.d(TAG, "onNext: " + smmsResult.getStatus());
+                            if (smmsResult.getStatus().equals("success")){
+                                Log.d(TAG, "onNext: " + smmsResult.getData().getPicUrl());
+                                onPostPhotoCallBack.onSuccess(smmsResult.getData().getPicUrl());
+                            }
+                        }
+                    });
+        }
     }
 }

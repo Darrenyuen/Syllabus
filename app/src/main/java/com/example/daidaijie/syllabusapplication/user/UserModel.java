@@ -1,14 +1,20 @@
 package com.example.daidaijie.syllabusapplication.user;
 
+import android.support.annotation.MainThread;
+
 import com.example.daidaijie.syllabusapplication.App;
 import com.example.daidaijie.syllabusapplication.ILoginModel;
 import com.example.daidaijie.syllabusapplication.bean.HttpResult;
+import com.example.daidaijie.syllabusapplication.bean.Lesson;
+import com.example.daidaijie.syllabusapplication.bean.Login;
+import com.example.daidaijie.syllabusapplication.bean.Semester;
 import com.example.daidaijie.syllabusapplication.bean.Syllabus;
 import com.example.daidaijie.syllabusapplication.bean.UserBaseBean;
 import com.example.daidaijie.syllabusapplication.bean.UserInfo;
 import com.example.daidaijie.syllabusapplication.event.UpdateUserInfoEvent;
 import com.example.daidaijie.syllabusapplication.retrofitApi.GetUserBaseApi;
 import com.example.daidaijie.syllabusapplication.retrofitApi.UserInfoApi;
+import com.example.daidaijie.syllabusapplication.retrofitApi.UserLogin;
 import com.example.daidaijie.syllabusapplication.util.RetrofitUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -18,6 +24,7 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import retrofit2.Retrofit;
 import rx.Observable;
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -33,6 +40,8 @@ public class UserModel implements IUserModel {
 
     private UserBaseBean mUserBaseBean;
 
+    private Login mLogin;
+
     private Realm mRealm;
 
     private ILoginModel mILoginModel;
@@ -41,6 +50,8 @@ public class UserModel implements IUserModel {
 
     private UserInfoApi mUserInfoApi;
 
+    private UserLogin mUserLoginApi;
+
     private boolean isLogin;
 
     public UserModel(ILoginModel loginModel, Retrofit retrofit) {
@@ -48,8 +59,8 @@ public class UserModel implements IUserModel {
         mILoginModel = loginModel;
         mGetUserBaseApi = retrofit.create(GetUserBaseApi.class);
         mUserInfoApi = retrofit.create(UserInfoApi.class);
+        mUserLoginApi = retrofit.create(UserLogin.class);
     }
-
 
     public UserModel(ILoginModel loginModel, Realm realm, Retrofit retrofit) {
         this(loginModel, retrofit);
@@ -228,6 +239,19 @@ public class UserModel implements IUserModel {
                         }
                     }
                 });
+    }
+
+    /**
+     * 更改登录接口，与学分制剥离
+     * @return
+     */
+
+    @Override
+    public Observable<Login> getLoginFromNet() {
+        return mUserLoginApi.userLogin(mILoginModel.getUserLogin().getUsername(),
+                mILoginModel.getUserLogin().getPassword())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

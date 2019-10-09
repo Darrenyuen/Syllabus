@@ -15,6 +15,8 @@ public class UserBaseBean extends RealmObject {
      * level : 2
      * account : 13yjli3
      * image : http://file.bmob.cn/M02/AE/32/oYYBAFdnwZiAe4EBAABaXRzBuAk291.jpg
+     *  image 服务由bmob改为smms
+     * image : https://i.loli.net/2019/10/07/AhMs4KpYrkFEZIX.jpg
      * birthday : null
      * profile : 哈哈哈哈哈
      * gender : 0

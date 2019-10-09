@@ -70,7 +70,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.view, V
         mTipTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dialog.show();
             }
         });
@@ -80,7 +79,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.view, V
     protected int getContentView() {
         return R.layout.activity_login;
     }
-
 
     @Override
     public void onClick(View v) {

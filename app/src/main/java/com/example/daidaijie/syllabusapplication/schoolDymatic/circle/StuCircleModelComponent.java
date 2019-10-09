@@ -2,6 +2,7 @@ package com.example.daidaijie.syllabusapplication.schoolDymatic.circle;
 
 import com.example.daidaijie.syllabusapplication.AppComponent;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SmmsRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.user.LoginUser;
 import com.example.daidaijie.syllabusapplication.di.scope.PerModule;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
@@ -38,6 +39,9 @@ public abstract class StuCircleModelComponent {
 
     @SchoolRetrofit
     public abstract Retrofit getSchoolRetrofit();
+
+    @SmmsRetrofit
+    public abstract Retrofit getSmmsRetrofit();
 
     @LoginUser
     public abstract IUserModel getUserModel();

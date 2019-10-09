@@ -1,5 +1,6 @@
 package com.example.daidaijie.syllabusapplication.user;
 
+import com.example.daidaijie.syllabusapplication.bean.Login;
 import com.example.daidaijie.syllabusapplication.bean.UserBaseBean;
 import com.example.daidaijie.syllabusapplication.bean.UserInfo;
 
@@ -30,6 +31,8 @@ public interface IUserModel {
     Observable<UserInfo> getUserInfo();
 
     UserInfo getUserInfoNormal();
+
+    Observable<Login> getLoginFromNet();
 
     void updateUserInfo(UserInfo userInfo);
 

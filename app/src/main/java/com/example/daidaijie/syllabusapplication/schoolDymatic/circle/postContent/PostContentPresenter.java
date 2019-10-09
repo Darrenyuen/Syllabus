@@ -1,5 +1,6 @@
 package com.example.daidaijie.syllabusapplication.schoolDymatic.circle.postContent;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -8,6 +9,7 @@ import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.di.scope.PerActivity;
 import com.example.daidaijie.syllabusapplication.util.LoggerUtil;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,13 +17,21 @@ import javax.inject.Inject;
 import cn.finalteam.galleryfinal.FunctionConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
+import id.zelory.compressor.Compressor;
+import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by daidaijie on 2016/10/21.
  */
 
 public class PostContentPresenter implements PostContentContract.presenter {
+
+    private String TAG = this.getClass().getSimpleName();
 
     IPostContentModel mIPostContentModel;
 
@@ -43,7 +53,7 @@ public class PostContentPresenter implements PostContentContract.presenter {
     public void selectPhoto() {
         //配置功能
         FunctionConfig functionConfig = new FunctionConfig.Builder()
-                .setMutiSelectMaxSize(PostContentActivity.MAX_IMG_NUM - mIPostContentModel.getPhotoImgs().size())
+                .setMutiSelectMaxSize(1)
                 .setEnableCamera(false)
                 .setEnableEdit(false)
                 .setEnableCrop(false)
@@ -53,9 +63,10 @@ public class PostContentPresenter implements PostContentContract.presenter {
                 .setForceCrop(false)//启动强制裁剪功能,一进入编辑页面就开启图片裁剪，不需要用户手动点击裁剪，此功能只针对单选操作
                 .build();
 
-        GalleryFinal.openGalleryMuti(200, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+        //选择一张照片
+        GalleryFinal.openGallerySingle(200, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
             @Override
-            public void onHanlderSuccess(int requestCode, List<PhotoInfo> resultList) {
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
                 for (PhotoInfo photoInfo : resultList) {
                     mIPostContentModel.getPhotoImgs().add("file://" + photoInfo.getPhotoPath());
                     mView.setUpFlow(mIPostContentModel.getPhotoImgs());
@@ -64,9 +75,10 @@ public class PostContentPresenter implements PostContentContract.presenter {
 
             @Override
             public void onHanlderFailure(int requestCode, String errorMsg) {
-                mView.showFailMessage(errorMsg);
+                mView.showFailMessage("选择失败");
             }
         });
+
     }
 
     @Override
@@ -88,8 +100,7 @@ public class PostContentPresenter implements PostContentContract.presenter {
             return;
         }
         mView.showLoading(true);
-        //图片上传失败
-        mIPostContentModel.postPhotoToBmob(new IPostContentModel.OnPostPhotoCallBack() {
+        mIPostContentModel.postPhotoToSmms(new IPostContentModel.OnPostPhotoCallBack() {
             @Override
             public void onSuccess(String photoJson) {
                 mIPostContentModel.pushContent(photoJson, msg, source)

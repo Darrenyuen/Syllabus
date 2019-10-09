@@ -40,7 +40,7 @@ public class PostDymaticPresenter implements PostDymaticContract.presenter {
     public void selectPhoto() {
         //配置功能
         FunctionConfig functionConfig = new FunctionConfig.Builder()
-                .setMutiSelectMaxSize(PostDymaticActivity.MAX_IMG_NUM - mIPostDymaticModel.getPhotoImgs().size())
+                .setMutiSelectMaxSize(1)
                 .setEnableCamera(false)
                 .setEnableEdit(false)
                 .setEnableCrop(false)
@@ -50,7 +50,8 @@ public class PostDymaticPresenter implements PostDymaticContract.presenter {
                 .setForceCrop(false)//启动强制裁剪功能,一进入编辑页面就开启图片裁剪，不需要用户手动点击裁剪，此功能只针对单选操作
                 .build();
 
-        GalleryFinal.openGalleryMuti(200, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+        //选择一张照片
+        GalleryFinal.openGallerySingle(200, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
             @Override
             public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
                 for (PhotoInfo photoInfo : resultList) {
@@ -61,7 +62,7 @@ public class PostDymaticPresenter implements PostDymaticContract.presenter {
 
             @Override
             public void onHanlderFailure(int requestCode, String errorMsg) {
-                mView.showFailMessage(errorMsg);
+                mView.showFailMessage("选择失败");
             }
         });
 
@@ -91,7 +92,7 @@ public class PostDymaticPresenter implements PostDymaticContract.presenter {
         }
 
         mView.showLoading(true);
-        mIPostDymaticModel.postPhotoToBmob(new IPostDymaticModel.OnPostCallBack() {
+        mIPostDymaticModel.postPhotoToSmms(new IPostDymaticModel.OnPostCallBack() {
             @Override
             public void onSuccess(String photoJson) {
                 mIPostDymaticModel.pushContent(photoJson, msg, source, url, locate, hasTime)

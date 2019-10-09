@@ -1,6 +1,7 @@
 package com.example.daidaijie.syllabusapplication.schoolDymatic.dymatic.postDymatic;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.daidaijie.syllabusapplication.App;
 import com.example.daidaijie.syllabusapplication.bean.BmobPhoto;
@@ -8,11 +9,12 @@ import com.example.daidaijie.syllabusapplication.bean.HttpResult;
 import com.example.daidaijie.syllabusapplication.bean.PhotoInfo;
 import com.example.daidaijie.syllabusapplication.bean.PostActivityBean;
 import com.example.daidaijie.syllabusapplication.bean.QiNiuImageInfo;
+import com.example.daidaijie.syllabusapplication.bean.SmmsResult;
 import com.example.daidaijie.syllabusapplication.bean.UserInfo;
 import com.example.daidaijie.syllabusapplication.retrofitApi.PostActivityApi;
+import com.example.daidaijie.syllabusapplication.retrofitApi.PushImageToSmmsApi;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
 import com.example.daidaijie.syllabusapplication.util.GsonUtil;
-import com.example.daidaijie.syllabusapplication.util.ImageUploader;
 import com.example.daidaijie.syllabusapplication.util.LoggerUtil;
 import com.example.daidaijie.syllabusapplication.util.RetrofitUtil;
 import com.orhanobut.logger.Logger;
@@ -23,11 +25,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UploadFileListener;
-import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -39,8 +39,11 @@ import rx.schedulers.Schedulers;
  */
 
 public class PostDymaticModel implements IPostDymaticModel {
+    private String TAG = this.getClass().getSimpleName();
 
     private PostActivityApi mPostActivityApi;
+
+    private PushImageToSmmsApi pushImageToSmmsApi;
 
     private List<String> mPhotoImgs;
 
@@ -49,12 +52,13 @@ public class PostDymaticModel implements IPostDymaticModel {
     LocalDateTime mStartTime;
     LocalDateTime mEndTime;
 
-    public PostDymaticModel(PostActivityApi postActivityApi, IUserModel IUserModel) {
+    public PostDymaticModel(PostActivityApi postActivityApi, IUserModel IUserModel, PushImageToSmmsApi pushImageToSmmsApi) {
         mPostActivityApi = postActivityApi;
         mIUserModel = IUserModel;
         mPhotoImgs = new ArrayList<>();
         mStartTime = LocalDateTime.now();
         mEndTime = LocalDateTime.now();
+        this.pushImageToSmmsApi = pushImageToSmmsApi;
     }
 
     @Override
@@ -99,7 +103,7 @@ public class PostDymaticModel implements IPostDymaticModel {
     }
 
     @Override
-    public void postPhotoToBmob(final OnPostCallBack onPostCallBack) {
+    public void postPhotoToSmms(final OnPostCallBack onPostCallBack) {
         if (mPhotoImgs.size() == 0) {
             onPostCallBack.onSuccess(null);
             return;
@@ -138,35 +142,43 @@ public class PostDymaticModel implements IPostDymaticModel {
 
                     @Override
                     public void onNext(File file) {
-                        //将图片上传到bmob
-                        final BmobFile bmobFile = new BmobFile(file);
-                        bmobFile.uploadblock(new UploadFileListener() {
-
-                            @Override
-                            public void done(BmobException e) {
-                                if (e == null) {
-                                    PhotoInfo.PhotoListBean photoListBean = new PhotoInfo.PhotoListBean();
-                                    //        LoggerUtil.e(bmobFile.getFileUrl());
-                                    photoListBean.setSize_big(bmobFile.getFileUrl());
-                                    photoListBean.setSize_small(bmobFile.getFileUrl());
-                                    photoInfo.getPhoto_list().add(photoListBean);
-                                    if (photoInfo.getPhoto_list().size() == mPhotoImgs.size()) {
-                                        //将json post到服务器
-                                        String photoListJsonString = GsonUtil.getDefault()
-                                                .toJson(photoInfo);
-                                        LoggerUtil.e(photoListJsonString);
-                                        onPostCallBack.onSuccess(photoListJsonString);
+                        //将图片上传到sm.ms
+                        Log.d(TAG, "postPhotoToSmms: " + file.getName());
+                        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                        MultipartBody.Part body = MultipartBody.Part.createFormData("smfile", file.getName(), requestFile);
+                        pushImageToSmmsApi.pushImage(body)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<SmmsResult>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        Log.d(TAG, "onCompleted: ");
                                     }
-                                } else {
-                                    onPostCallBack.onFail("图片上传失败!");
-                                }
-                            }
 
-                            @Override
-                            public void doneError(int code, String msg) {
-                                onPostCallBack.onFail("图片上传失败!");
-                            }
-                        });
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        onPostCallBack.onFail("图片上传失败!");
+                                    }
+
+                                    @Override
+                                    public void onNext(SmmsResult smmsResult) {
+                                        Log.d(TAG, "onNext: " + smmsResult.getStatus());
+                                        if (smmsResult.getStatus().equals("success")) {
+                                            Log.d(TAG, "onNext: " + smmsResult.getData().getPicUrl());
+                                            PhotoInfo.PhotoListBean photoListBean = new PhotoInfo.PhotoListBean();
+                                            photoListBean.setSize_big(smmsResult.getData().getPicUrl());
+                                            photoListBean.setSize_small(smmsResult.getData().getPicUrl());
+                                            photoInfo.getPhoto_list().add(photoListBean);
+                                            if (photoInfo.getPhoto_list().size() == mPhotoImgs.size()) {
+                                                //将json post到服务器
+                                                String photoListJsonString = GsonUtil.getDefault()
+                                                        .toJson(photoInfo);
+                                                LoggerUtil.e(photoListJsonString);
+                                                onPostCallBack.onSuccess(photoListJsonString);
+                                            }
+                                        }
+                                    }
+                                });
                     }
                 });
     }

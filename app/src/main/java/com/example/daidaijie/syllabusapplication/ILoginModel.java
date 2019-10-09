@@ -1,6 +1,7 @@
 package com.example.daidaijie.syllabusapplication;
 
 import com.example.daidaijie.syllabusapplication.base.IBaseModel;
+import com.example.daidaijie.syllabusapplication.bean.Login;
 import com.example.daidaijie.syllabusapplication.bean.Semester;
 import com.example.daidaijie.syllabusapplication.bean.UserLogin;
 
@@ -21,6 +22,8 @@ public interface ILoginModel {
     Observable<UserLogin> getUserLoginFromDisk();
 
     Observable<UserLogin> getUserLoginFromCache();
+
+    void getUserFromNet();
 
     void getUserLoginNormal(IBaseModel.OnGetSuccessCallBack<UserLogin> onGetSuccessCallBack);
 

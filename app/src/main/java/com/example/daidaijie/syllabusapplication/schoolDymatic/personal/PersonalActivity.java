@@ -2,6 +2,7 @@ package com.example.daidaijie.syllabusapplication.schoolDymatic.personal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.example.daidaijie.syllabusapplication.bean.UserBaseBean;
 import com.example.daidaijie.syllabusapplication.main.MainActivity;
 import com.example.daidaijie.syllabusapplication.user.UserComponent;
 import com.example.daidaijie.syllabusapplication.util.SnackbarUtil;
+import com.example.daidaijie.syllabusapplication.util.ThemeUtil;
+import com.example.daidaijie.syllabusapplication.widget.LoadingDialogBuiler;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import javax.inject.Inject;
@@ -39,6 +42,8 @@ public class PersonalActivity extends BaseActivity implements PersonalContract.v
     EditText mSayEditText;
     @BindView(R.id.finishButton)
     FButton mFinishButton;
+
+    AlertDialog mLoadingDialog;
 
     @Inject
     PersonalPresenter mPersonalPresenter;
@@ -70,6 +75,8 @@ public class PersonalActivity extends BaseActivity implements PersonalContract.v
                         mSayEditText.getText().toString().trim());
             }
         });
+
+        mLoadingDialog = LoadingDialogBuiler.getLoadingDialog(this, ThemeUtil.getInstance().colorPrimary);
     }
 
     @Override
@@ -106,5 +113,20 @@ public class PersonalActivity extends BaseActivity implements PersonalContract.v
     @Override
     public void toMain() {
         finish();
+    }
+
+    @Override
+    public void showLoading(boolean isShow) {
+        if (isShow) {
+            mLoadingDialog.show();
+        } else {
+            mLoadingDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mLoadingDialog.dismiss();
     }
 }

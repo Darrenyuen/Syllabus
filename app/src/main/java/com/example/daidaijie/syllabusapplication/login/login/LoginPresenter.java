@@ -1,7 +1,10 @@
 package com.example.daidaijie.syllabusapplication.login.login;
 
+import android.util.Log;
+
 import com.example.daidaijie.syllabusapplication.ILoginModel;
 import com.example.daidaijie.syllabusapplication.base.IBaseModel;
+import com.example.daidaijie.syllabusapplication.bean.Login;
 import com.example.daidaijie.syllabusapplication.bean.UserInfo;
 import com.example.daidaijie.syllabusapplication.bean.UserLogin;
 import com.example.daidaijie.syllabusapplication.di.qualifier.user.UnLoginUser;
@@ -24,6 +27,7 @@ import rx.functions.Action1;
  */
 
 public class LoginPresenter implements LoginContract.presenter {
+    private String TAG = this.getClass().getSimpleName();
 
     LoginContract.view mView;
 
@@ -64,6 +68,69 @@ public class LoginPresenter implements LoginContract.presenter {
                         TCAgent.onRegister(username, TDAccount.AccountType.REGISTERED, username);
                         TCAgent.onLogin(username, TDAccount.AccountType.REGISTERED, username);
                         mView.toMainView();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LoggerUtil.printStack(e);
+                        mView.showLoading(false);
+                        if (e.getMessage() == null) {
+                            mView.showFailMessage("获取失败");
+                        } else {
+                            mView.showFailMessage(e.getMessage().toUpperCase());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RealmObject realmObject) {
+                        if (realmObject instanceof UserInfo) {
+                            mILoginModel.saveUserLoginToDisk();
+                        }
+                    }
+                });
+//        mView.showLoading(true);
+//        UserLogin userLogin = new UserLogin(username, password);
+//        mILoginModel.setUserLogin(userLogin);
+//        mIUserModel.getLoginFromNet()
+//                .subscribe(new Subscriber<Login>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        mView.showLoading(false);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        LoggerUtil.printStack(e);
+//                        mView.showLoading(false);
+//                        if (e.getMessage() == null) {
+//                            mView.showFailMessage("获取失败");
+//                        } else {
+//                            mView.showFailMessage(e.getMessage().toUpperCase());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onNext(Login login) {
+//                        final int code = login.getCode();
+//                        Log.d(TAG, "onNext: " + code);
+//                        if (code == 200) {
+//                            mView.toMainView();
+//                        }
+//                    }
+//                });
+//        // TODO: 2019/9/28 getUserFromNet
+//        load(username, password);
+    }
+
+    public void load(final String username, String password) {
+        Observable.merge(mIUserModel.getUserInfoFromNet(), mIUserModel.getUserBaseBeanFromNet())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<RealmObject>() {
+                    @Override
+                    public void onCompleted() {
+                        //talking data 注册登陆
+                        TCAgent.onRegister(username, TDAccount.AccountType.REGISTERED, username);
+                        TCAgent.onLogin(username, TDAccount.AccountType.REGISTERED, username);
                     }
 
                     @Override

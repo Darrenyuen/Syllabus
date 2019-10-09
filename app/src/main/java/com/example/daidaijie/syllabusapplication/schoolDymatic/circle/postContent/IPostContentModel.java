@@ -21,7 +21,7 @@ public interface IPostContentModel {
 
     List<String> getPhotoImgs();
 
-    void postPhotoToBmob(OnPostPhotoCallBack onPostPhotoCallBack);
+    void postPhotoToSmms(OnPostPhotoCallBack onPostPhotoCallBack);
 
     Observable<Void> pushContent(@Nullable String photoListJson, String content, String source);
 }

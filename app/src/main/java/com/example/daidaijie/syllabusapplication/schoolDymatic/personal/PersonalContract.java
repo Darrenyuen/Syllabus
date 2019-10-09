@@ -28,6 +28,9 @@ public interface PersonalContract {
         void showSuccessMessage(String msg);
 
         void toMain();
+
+        void showLoading(boolean isShow);
     }
+
 
 }
