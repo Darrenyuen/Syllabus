@@ -9,8 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.GET_TASKS"  />
-
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:name=".App"
@@ -107,15 +106,20 @@
             android:name=".services.StreamService"
             android:enabled="true"
             android:exported="true" />
-
-        <service android:name="com.talkingdata.sdk.TDAntiCheatingService"
-            android:process="com.talkingdata.sdk.TDAntiCheatingService">  <!--用户质量评估Service可以配置在主进程或者单独进程-->
+        <service
+            android:name="com.talkingdata.sdk.TDAntiCheatingService"
+            android:process="com.talkingdata.sdk.TDAntiCheatingService"> <!-- 用户质量评估Service可以配置在主进程或者单独进程 -->
             <intent-filter>
                 <action android:name="com.talkingdata.sdk.TDAntiCheatingService" />
             </intent-filter>
         </service>
-        <meta-data android:name="TD_APP_ID" android:value="46AF20EBA05847B5A5351E3A5FBADA76" />
-        <meta-data android:name="TD_CHANNEL_ID" android:value="default" />
+
+        <meta-data
+            android:name="TD_APP_ID"
+            android:value="46AF20EBA05847B5A5351E3A5FBADA76" />
+        <meta-data
+            android:name="TD_CHANNEL_ID"
+            android:value="default" />
 
         <activity
             android:name=".activity.LoginInternetActivity"
@@ -184,44 +188,41 @@
         <activity
             android:name=".other.update.UpdateActivity"
             android:screenOrientation="portrait" />
-
-
-        <activity android:name=".mystu.MyStuMainActivity"
+        <activity
+            android:name=".mystu.MyStuMainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".mystu.CourseWorkMainActivity"
+        <activity
+            android:name=".mystu.CourseWorkMainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".mystu.CourseWareActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".mystu.CourseWareActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".mystu.CourseInfoActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".mystu.CourseInfoActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".mystu.CourseInfoDownloadActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".mystu.CourseInfoDownloadActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".mystu.CourseWorkDetailsActivity"
-                android:screenOrientation="portrait"
-                android:windowSoftInputMode="adjustPan">
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".mystu.CourseWorkDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".mealcard.MealCardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name=".mealcard.MealCardActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
+        <service
+            android:name=".services.SyllabusService"
+            android:enabled="true"
+            android:exported="true" />
 
-        <activity android:name=".todo.Activity.ToDoMainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".todo.Activity.EditOrDeleteActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".todo.Activity.AddTaskActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
-
+        <activity android:name=".syllabus.customizelesson.CustomizeActivity"></activity>
     </application>
 
 </manifest>
