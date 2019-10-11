@@ -1,7 +1,6 @@
 package com.example.daidaijie.syllabusapplication;
 
 import com.example.daidaijie.syllabusapplication.base.IBaseModel;
-import com.example.daidaijie.syllabusapplication.bean.Login;
 import com.example.daidaijie.syllabusapplication.bean.Semester;
 import com.example.daidaijie.syllabusapplication.bean.UserLogin;
 import com.example.daidaijie.syllabusapplication.util.LoggerUtil;

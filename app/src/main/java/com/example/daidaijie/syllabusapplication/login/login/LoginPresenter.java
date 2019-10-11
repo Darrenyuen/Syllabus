@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.example.daidaijie.syllabusapplication.ILoginModel;
 import com.example.daidaijie.syllabusapplication.base.IBaseModel;
-import com.example.daidaijie.syllabusapplication.bean.Login;
 import com.example.daidaijie.syllabusapplication.bean.UserInfo;
 import com.example.daidaijie.syllabusapplication.bean.UserLogin;
 import com.example.daidaijie.syllabusapplication.di.qualifier.user.UnLoginUser;

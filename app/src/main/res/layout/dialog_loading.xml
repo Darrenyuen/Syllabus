@@ -15,7 +15,7 @@
         <TextView
             android:textSize="16sp"
             android:textColor="#2B2B2B"
-            android:text="waiting"
+            android:text="Please wait…"
             android:layout_marginLeft="32dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
