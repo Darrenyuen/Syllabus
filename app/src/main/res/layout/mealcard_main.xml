@@ -23,110 +23,94 @@
             android:paddingTop="12dp"
             android:paddingLeft="68dp"
             android:singleLine="true"
-            android:text="一卡通信息"
+            android:text="一卡通"
             android:textColor="@android:color/white"
             android:textSize="20sp"/>
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
-        android:layout_marginLeft="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_marginTop="20dp"
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <LinearLayout
-                android:gravity="center"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:src="@drawable/mealcard_wallet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+
             <TextView
-                android:text="余额："
-                android:layout_gravity="center_vertical"
-                android:textSize="22sp"
-                android:textColor="#2b2e2c"
-                android:textStyle="normal"
-                android:layout_marginLeft="30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/mealcard_TV_balance"
-                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:textColor="#2b2e2c"
-                android:textStyle="normal"
-                android:text="loading..."/>
+                android:text="余额:"
+                android:textColor="#ffffff"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/mealcard_TV_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="loading..."
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:orientation="vertical">
+
             <LinearLayout
-                android:gravity="center"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/mealcard_bill"/>
-            </LinearLayout>
-            <TextView
-                android:id="@+id/mealcard_TV_todayConsume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:layout_marginLeft="25dp"
-                android:text="今日消费： loading... 元"
-                android:textColor="?attr/colorPrimary" />
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/mealcard_TV_todayConsume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="今日消费： loading... 元"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
         </LinearLayout>
 
+        <RadioGroup
+            android:id="@+id/mealcard_rg"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/mealcard_rb_1"
+                android:text="近三日"
+                android:checked="true"
+                style="@style/mealcard_rg_style" />
+            <RadioButton
+                android:id="@+id/mealcard_rb_2"
+                android:text="一周内"
+                style="@style/mealcard_rg_style" />
+            <RadioButton
+                android:id="@+id/mealcard_rb_3"
+                android:text="一月内"
+                style="@style/mealcard_rg_style" />
+            <RadioButton
+                android:id="@+id/mealcard_rb_4"
+                android:text="近三月"
+                style="@style/mealcard_rg_style" />
+        </RadioGroup>
+
     </LinearLayout>
-
-
-    <RadioGroup
-        android:id="@+id/mealcard_rg"
-        android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:orientation="horizontal">
-        <RadioButton
-            android:id="@+id/mealcard_rb_1"
-            android:text="近三日"
-            android:checked="true"
-            style="@style/mealcard_rg_style" />
-        <RadioButton
-            android:id="@+id/mealcard_rb_2"
-            android:text="一周内"
-            style="@style/mealcard_rg_style" />
-        <RadioButton
-            android:id="@+id/mealcard_rb_3"
-            android:text="一月内"
-            style="@style/mealcard_rg_style" />
-        <RadioButton
-            android:id="@+id/mealcard_rb_4"
-            android:text="近三月"
-            style="@style/mealcard_rg_style" />
-    </RadioGroup>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/mealcard_card_background"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
         android:gravity="center">
         <ImageView
             android:layout_width="wrap_content"
@@ -146,17 +130,8 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="10dp"
-        android:alpha="0.3"
-        android:background="#000000"
-        />
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/mealcard_swipe_refresh"
-        android:layout_marginTop="3dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 

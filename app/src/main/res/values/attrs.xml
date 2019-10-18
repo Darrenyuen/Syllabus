@@ -41,5 +41,4 @@
         <attr name="srcImage" format="reference"/>
     </declare-styleable>
 
-
 </resources>

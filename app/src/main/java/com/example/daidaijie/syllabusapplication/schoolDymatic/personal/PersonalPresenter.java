@@ -24,7 +24,9 @@ import cn.finalteam.galleryfinal.FunctionConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
 import id.zelory.compressor.Compressor;
+import retrofit2.Retrofit;
 import rx.Observable;
+import rx.Producer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -118,6 +120,7 @@ public class PersonalPresenter implements PersonalContract.presenter {
                 Log.d(TAG, "onSuccess: " + photoJson);
                 mIPersonalModel.updateUserInfo(nickName, profile, photoJson)
                         .subscribe(new Subscriber<Void>() {
+
                             @Override
                             public void onCompleted() {
                                 UserInfo userInfo = mIUserModel.getUserInfoNormal();
@@ -164,6 +167,5 @@ public class PersonalPresenter implements PersonalContract.presenter {
             }
         });
     }
-
 
 }

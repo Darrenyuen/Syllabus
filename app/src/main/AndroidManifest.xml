@@ -222,7 +222,9 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".syllabus.customizelesson.CustomizeActivity"></activity>
+        <activity android:name=".syllabus.customizelesson.CustomizeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

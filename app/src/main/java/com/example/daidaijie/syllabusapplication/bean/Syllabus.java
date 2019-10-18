@@ -113,8 +113,6 @@ public class Syllabus extends RealmObject {
         this.setSemester(new Semester(semester.getStartYear(), semester.getSeason()));
         removeSystemLesson(realm, semester);
 
-//        lessons.add(new Lesson("1-10", "测试", new Lesson.Days("5", "", "", "", "", "", "")));
-
         for (final Lesson lesson : lessons) {
             //将lesson的时间格式化
             lesson.convertDays();

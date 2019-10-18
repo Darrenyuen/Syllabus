@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,7 +9,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/toolbar_height"
         android:background="?attr/colorPrimary"
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
@@ -28,6 +29,7 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"/>
     </android.support.v7.widget.Toolbar>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="(必填, 20字以内)"
+                android:hint="(必填)"
                 android:maxLength="20"
                 android:singleLine="true"
                 android:textColorHint="?attr/colorPrimary"
@@ -87,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="(选填, 20字以内)"
+                android:hint="(选填)"
                 android:maxLength="20"
                 android:singleLine="true"
                 android:textColorHint="?attr/colorPrimary"
@@ -100,7 +102,7 @@
             android:layout_margin="8dp"
             android:background="@color/defaultShowColor"/>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -110,27 +112,63 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:text="周数　　"
                 android:layout_gravity="center"
+                android:text="周数　　"
                 android:textColor="@color/defaultTextColor"
                 android:textSize="16sp"/>
-            <TextView
-                android:id="@+id/weeks"
-                android:text="1-18"
-                android:layout_marginRight="15dp"
-                android:textSize="16sp"
-                android:textColor="@color/colorPrimary"
+            <LinearLayout
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
+                android:layout_height="wrap_content">
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:id="@+id/singleWeekButton"
+                        android:text="单周"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:layout_margin="5dp"
+                        android:checked="true"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:textColor="@drawable/custom_select_text_bg"
+                        android:background="@drawable/custom_select_button_bg"/>
+                    <RadioButton
+                        android:id="@+id/doubleWeekButton"
+                        android:text="双周"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:layout_margin="5dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:textColor="@drawable/custom_select_text_bg"
+                        android:background="@drawable/custom_select_button_bg" />
+                    <RadioButton
+                        android:id="@+id/customWeekButton"
+                        android:text="自定义"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:layout_margin="5dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:textColor="@drawable/custom_select_text_bg"
+                        android:background="@drawable/custom_select_button_bg" />
+                </RadioGroup>
+            </LinearLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_margin="8dp"
             android:background="@color/defaultShowColor"/>
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -140,37 +178,51 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:text="时间"
+                android:layout_gravity="center"
+                android:text="时间　　"
                 android:textColor="@color/defaultTextColor"
                 android:textSize="16sp"/>
             <TextView
                 android:id="@+id/detail"
-                android:text="星期八 67"
+                android:layout_margin="5dp"
+                android:text="请选择"
                 android:layout_marginRight="15dp"
                 android:textSize="16sp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimary"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-        </RelativeLayout>
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_margin="8dp"
             android:background="@color/defaultShowColor"/>
-        <Button
-            android:id="@+id/add"
-            android:text="添加"
-            android:textSize="18sp"
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/lessonRipple"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"
+            app:mrl_rippleAlpha="0.1"
+            app:mrl_rippleColor="#000000"
+            app:mrl_rippleDuration="500"
+            app:mrl_rippleOverlay="true"
+            app:mrl_rippleRoundedCorners="4dp">
+
+            <Button
+                android:id="@+id/submitButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:elevation="8dp"
+                android:text="确认"
+                android:textColor="@color/material_white"
+                android:textSize="16sp"
+                tools:targetApi="lollipop"/>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </FrameLayout>
 
 </LinearLayout>

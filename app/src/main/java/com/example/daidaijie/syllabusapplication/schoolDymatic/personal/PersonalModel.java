@@ -2,7 +2,9 @@ package com.example.daidaijie.syllabusapplication.schoolDymatic.personal;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 
+import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.bean.HttpResult;
 import com.example.daidaijie.syllabusapplication.bean.SmmsResult;
 import com.example.daidaijie.syllabusapplication.bean.UpdateUserBody;
@@ -90,6 +92,7 @@ public class PersonalModel implements IPersonalModel {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<SmmsResult>() {
+
                         @Override
                         public void onCompleted() {
                             Log.d(TAG, "onCompleted: ");
@@ -111,4 +114,5 @@ public class PersonalModel implements IPersonalModel {
                     });
         }
     }
+
 }

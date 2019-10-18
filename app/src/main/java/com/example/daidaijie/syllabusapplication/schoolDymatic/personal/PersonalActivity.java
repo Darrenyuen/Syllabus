@@ -1,10 +1,12 @@
 package com.example.daidaijie.syllabusapplication.schoolDymatic.personal;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -124,9 +126,4 @@ public class PersonalActivity extends BaseActivity implements PersonalContract.v
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        mLoadingDialog.dismiss();
-    }
 }

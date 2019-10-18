@@ -3,14 +3,12 @@ package com.example.daidaijie.syllabusapplication.syllabus.lessonDetail;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
-import android.transition.Explode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -29,6 +27,7 @@ import butterknife.BindView;
 
 
 public class LessonInfoActivity extends BaseActivity implements LessonInfoContract.view {
+    private final String TAG = this.getClass().getSimpleName();
 
     @BindView(R.id.lessonNumberLayout)
     LessonDetailLayout mLessonNumberLayout;
@@ -129,10 +128,10 @@ public class LessonInfoActivity extends BaseActivity implements LessonInfoContra
 
     @Override
     public void showData(Lesson lesson) {
+//        Log.d(TAG, "showData: " + lesson.getId());
         GradientDrawable shape = (GradientDrawable) getResources().getDrawable(R.drawable.bg_show_classmate);
         shape.setColor(getResources().getColor(lesson.getBgColor()));
         mShowClassMateButton.setBackgroundDrawable(shape);
-
         mAppBar.setBackgroundColor(getResources().getColor(
                 lesson.getBgColor()));
         mToolbarLayout.setContentScrimColor(getResources().getColor(

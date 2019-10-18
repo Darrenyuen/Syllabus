@@ -227,39 +227,13 @@ public class AddLessonGridActivity extends BaseActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(AddLessonGridActivity.this);
-            View view = inflater.inflate(R.layout.item_select_week, parent, false);
 
-            return new ViewHolder(view);
+            return null;
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-            if (selectWeeks.get(position)) {
-                holder.mWeekTextView.setBackgroundColor(ThemeUtil.getInstance().colorPrimary);
-                holder.mWeekTextView.setTextColor(getResources().getColor(R.color.material_white));
-            } else {
-                holder.mWeekTextView.setBackgroundColor(getResources().getColor(R.color.material_white));
-                holder.mWeekTextView.setTextColor(getResources().getColor(R.color.defaultTextColor));
-            }
-            holder.mWeekTextView.setText("" + (position + 1));
-            holder.mWeekTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (selectWeeks.get(position)) {
-                        selectWeeks.set(position, false);
-                    } else {
-                        selectWeeks.set(position, true);
-                    }
-                    if (selectWeeks.get(position)) {
-                        holder.mWeekTextView.setBackgroundColor(ThemeUtil.getInstance().colorPrimary);
-                        holder.mWeekTextView.setTextColor(getResources().getColor(R.color.material_white));
-                    } else {
-                        holder.mWeekTextView.setBackgroundColor(getResources().getColor(R.color.material_white));
-                        holder.mWeekTextView.setTextColor(getResources().getColor(R.color.defaultTextColor));
-                    }
-                    getSelectType();
-                }
-            });
+
         }
 
         @Override
@@ -268,8 +242,6 @@ public class AddLessonGridActivity extends BaseActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            @BindView(R.id.weekTextView)
-            TextView mWeekTextView;
 
             public ViewHolder(View itemView) {
                 super(itemView);
