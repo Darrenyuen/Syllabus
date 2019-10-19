@@ -57,14 +57,32 @@ public class WeekAdapter extends RecyclerView.Adapter<WeekAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mActivity);
 
-        return null;
+        View view = inflater.inflate(R.layout.item_week_select, parent, false);
+
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+        holder.mWeekTextView.setText(position + 1 + "");
+        holder.mDivLine.setVisibility(position == 17 ? View.INVISIBLE : View.VISIBLE);
 
+        holder.mWeekLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onClick(position);
+                }
+            }
+        });
 
-
+        if (position == selectItem) {
+            holder.mWeekTextView.setBackground(mActivity.getResources().getDrawable(R.drawable.bg_select_week));
+            holder.mWeekTextView.setTextColor(mActivity.getResources().getColor(R.color.material_white));
+        }else{
+            holder.mWeekTextView.setBackground(null);
+            holder.mWeekTextView.setTextColor(mActivity.getResources().getColor(R.color.defaultShowColor));
+        }
     }
 
     @Override
@@ -73,7 +91,12 @@ public class WeekAdapter extends RecyclerView.Adapter<WeekAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        @BindView(R.id.weekLayout)
+        RelativeLayout mWeekLayout;
+        @BindView(R.id.weekTextView)
+        TextView mWeekTextView;
+        @BindView(R.id.div_line)
+        View mDivLine;
 
         public ViewHolder(View itemView) {
             super(itemView);
