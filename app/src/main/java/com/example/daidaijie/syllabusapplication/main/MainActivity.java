@@ -98,6 +98,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import cn.bmob.v3.Bmob;
 import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -391,6 +392,14 @@ public class MainActivity extends BaseActivity implements
             themePickerFragment.show(getSupportFragmentManager(),
                     ThemePickerFragment.DIALOG_THEME_PICKER);
         } else if (id == R.id.nav_logout) {
+            Realm mRealm = Realm.getDefaultInstance();
+            final RealmResults<UserLogin> userList = mRealm.where(UserLogin.class).findAll();
+            mRealm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    userList.get(0).deleteFromRealm();
+                }
+            });
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             UserComponent.destory();
@@ -436,8 +445,10 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void showUserInfo(UserInfo mUserInfo) {
-        nicknameTextView.setText(mUserInfo.getNickname());
-        headImageDraweeView.setImageURI(mUserInfo.getAvatar());
+        if (mUserInfo != null) {
+            nicknameTextView.setText(mUserInfo.getNickname());
+            headImageDraweeView.setImageURI(mUserInfo.getAvatar());
+        }
     }
 
     @Override
@@ -664,9 +675,11 @@ public class MainActivity extends BaseActivity implements
     private void forMyStuActivity(){
         Realm xRealm = Realm.getDefaultInstance();
         UserLogin cookiesUserLogin = xRealm.where(UserLogin.class).findFirst();
-        String cookiesUserName = cookiesUserLogin.getUsername();
-        String cookiesPassword = cookiesUserLogin.getPassword();
-        CookiesRequest mCookiesRequest = new CookiesRequest(cookiesUserName,cookiesPassword,cookiesHandler);
-        mCookiesRequest.getCookies();
+        if (cookiesUserLogin != null) {
+            String cookiesUserName = cookiesUserLogin.getUsername();
+            String cookiesPassword = cookiesUserLogin.getPassword();
+            CookiesRequest mCookiesRequest = new CookiesRequest(cookiesUserName,cookiesPassword,cookiesHandler);
+            mCookiesRequest.getCookies();
+        }
     }
 }

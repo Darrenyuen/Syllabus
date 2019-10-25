@@ -57,7 +57,10 @@ public class MainPresenter implements MainContract.presenter {
     @Override
     public void start() {
 //*********************
-        MobclickAgent.onProfileSignIn(mUserModel.getUserInfoNormal().getUsername());
+        if (mUserModel.getUserInfoNormal() != null) {
+
+            MobclickAgent.onProfileSignIn(mUserModel.getUserInfoNormal().getUsername());
+        }
 
         showUserInfo();
 

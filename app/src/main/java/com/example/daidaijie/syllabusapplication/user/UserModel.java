@@ -1,5 +1,7 @@
 package com.example.daidaijie.syllabusapplication.user;
 
+import android.widget.Toast;
+
 import com.example.daidaijie.syllabusapplication.App;
 import com.example.daidaijie.syllabusapplication.ILoginModel;
 import com.example.daidaijie.syllabusapplication.bean.HttpResult;
@@ -223,7 +225,8 @@ public class UserModel implements IUserModel {
                             EventBus.getDefault().post(new UpdateUserInfoEvent());
                             return Observable.just(mUserInfo);
                         } else {
-                            return Observable.error(new Throwable(userInfoHttpResult.getMessage()));
+//                            return Observable.error(new Throwable(userInfoHttpResult.getMessage()));
+                            return null;
                         }
                     }
                 });

@@ -1,18 +1,23 @@
 package com.example.daidaijie.syllabusapplication;
 
 import com.example.daidaijie.syllabusapplication.base.IBaseModel;
+import com.example.daidaijie.syllabusapplication.bean.AuthLogin;
 import com.example.daidaijie.syllabusapplication.bean.Semester;
 import com.example.daidaijie.syllabusapplication.bean.UserLogin;
+import com.example.daidaijie.syllabusapplication.retrofitApi.AuthLoginApi;
 import com.example.daidaijie.syllabusapplication.util.LoggerUtil;
 
 import org.joda.time.DateTime;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import retrofit2.Retrofit;
 import rx.Observable;
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by daidaijie on 2016/10/13.
@@ -22,19 +27,32 @@ public class LoginModel implements ILoginModel {
 
     UserLogin mUserLogin;
 
+    AuthLogin mAuthLogin;
+
     Realm mRealm;
+
+    Retrofit mRetrofit;
 
     Semester mCurrentSemester;
 
+    AuthLoginApi authLoginApi;
 
-    public LoginModel(Realm realm) {
+
+    public LoginModel(Realm realm, Retrofit retrofit) {
         mRealm = realm;
+        mRetrofit = retrofit;
     }
 
     @Override
     public void setUserLogin(UserLogin userLogin) {
         mUserLogin = userLogin;
     }
+
+    @Override
+    public void setAuthLogin(AuthLogin authLogin) {
+        mAuthLogin = authLogin;
+    }
+
 
     @Override
     public UserLogin getUserLogin() {
@@ -52,6 +70,24 @@ public class LoginModel implements ILoginModel {
             });
         }
         return mUserLogin;
+    }
+
+    @Override
+    public AuthLogin getAuthLogin() {
+        if (mAuthLogin != null) {
+            return mAuthLogin;
+        } else {
+            mRealm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    RealmResults<AuthLogin> results = realm.where(AuthLogin.class).findAll();
+                    if (results.size() != 0) {
+                        mAuthLogin = realm.copyFromRealm(results.first());
+                    }
+                }
+            });
+        }
+        return mAuthLogin;
     }
 
     @Override
@@ -89,7 +125,8 @@ public class LoginModel implements ILoginModel {
 
     @Override
     public Observable<UserLogin> getUserLoginFromCache() {
-        return Observable.concat(getUserLoginFromMemory(), getUserLoginFromDisk())
+//        return Observable.concat(getUserLoginFromMemory(), getUserLoginFromDisk())
+        return getUserLoginFromDisk()
                 .takeFirst(new Func1<UserLogin, Boolean>() {
                     @Override
                     public Boolean call(UserLogin userLogin) {
@@ -123,8 +160,11 @@ public class LoginModel implements ILoginModel {
      * @return
      */
     @Override
-    public void getUserFromNet() {
-
+    public Observable<AuthLogin> authLogin(String username, String password) {
+        authLoginApi = mRetrofit.create(AuthLoginApi.class);
+        return authLoginApi.authLogin(username, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -134,6 +174,17 @@ public class LoginModel implements ILoginModel {
             public void execute(Realm realm) {
                 realm.where(UserLogin.class).findAll().deleteAllFromRealm();
                 realm.copyToRealm(mUserLogin);
+            }
+        });
+    }
+
+    @Override
+    public void saveAuthLoginToDisk() {
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.where(AuthLogin.class).findAll().deleteAllFromRealm();
+                realm.copyToRealm(mAuthLogin);
             }
         });
     }

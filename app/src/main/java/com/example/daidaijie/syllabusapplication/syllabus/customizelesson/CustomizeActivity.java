@@ -15,8 +15,6 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.base.BaseActivity;
-import com.example.daidaijie.syllabusapplication.syllabus.SyllabusComponent;
-import com.example.daidaijie.syllabusapplication.syllabus.lessonDetail.DaggerLessonInfoComponent;
 
 import java.util.ArrayList;
 

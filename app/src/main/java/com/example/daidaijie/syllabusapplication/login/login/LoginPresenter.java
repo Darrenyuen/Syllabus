@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.daidaijie.syllabusapplication.ILoginModel;
 import com.example.daidaijie.syllabusapplication.base.IBaseModel;
+import com.example.daidaijie.syllabusapplication.bean.AuthLogin;
 import com.example.daidaijie.syllabusapplication.bean.UserInfo;
 import com.example.daidaijie.syllabusapplication.bean.UserLogin;
 import com.example.daidaijie.syllabusapplication.di.qualifier.user.UnLoginUser;
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 
 import io.realm.RealmObject;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -55,81 +57,51 @@ public class LoginPresenter implements LoginContract.presenter {
     @Override
     public void login(final String username, String password) {
         mView.showLoading(true);
-        UserLogin userLogin = new UserLogin(username, password);
-        mILoginModel.setUserLogin(userLogin);
-        Observable.merge(mIUserModel.getUserInfoFromNet(), mIUserModel.getUserBaseBeanFromNet())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<RealmObject>() {
+
+        update(username, password);
+
+        mILoginModel.authLogin(username, password)
+                .subscribe(new Observer<AuthLogin>() {
                     @Override
                     public void onCompleted() {
-                        mView.showLoading(false);
-                        //talking data 注册登陆
-                        TCAgent.onRegister(username, TDAccount.AccountType.REGISTERED, username);
-                        TCAgent.onLogin(username, TDAccount.AccountType.REGISTERED, username);
-                        mView.toMainView();
+
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        LoggerUtil.printStack(e);
-                        mView.showLoading(false);
-                        if (e.getMessage() == null) {
-                            mView.showFailMessage("获取失败");
-                        } else {
-                            mView.showFailMessage(e.getMessage().toUpperCase());
-                        }
+                    public void onError(Throwable throwable) {
+                        mView.showFailMessage("获取失败");
                     }
 
                     @Override
-                    public void onNext(RealmObject realmObject) {
-                        if (realmObject instanceof UserInfo) {
-                            mILoginModel.saveUserLoginToDisk();
-                        }
+                    public void onNext(AuthLogin authLogin) {
+                        mILoginModel.setAuthLogin(authLogin);
+                        Log.d(TAG, "onNext: " + authLogin.getCode());
+//                        AuthLogin.Data  data = authLogin.getData();
+//                        Log.d(TAG, "onNext: " + authLogin.getData().getToken());
+                        Log.d(TAG, "onNext: " + authLogin.getData());
+                        if (authLogin.getCode() == 200) {
+                            mView.showLoading(false);
+                            mILoginModel.saveAuthLoginToDisk();
+                            mView.toMainView();
+                        } else mView.showFailMessage("获取失败");
                     }
                 });
-//        mView.showLoading(true);
-//        UserLogin userLogin = new UserLogin(username, password);
-//        mILoginModel.setUserLogin(userLogin);
-//        mIUserModel.getLoginFromNet()
-//                .subscribe(new Subscriber<Login>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        mView.showLoading(false);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        LoggerUtil.printStack(e);
-//                        mView.showLoading(false);
-//                        if (e.getMessage() == null) {
-//                            mView.showFailMessage("获取失败");
-//                        } else {
-//                            mView.showFailMessage(e.getMessage().toUpperCase());
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onNext(Login login) {
-//                        final int code = login.getCode();
-//                        Log.d(TAG, "onNext: " + code);
-//                        if (code == 200) {
-//                            mView.toMainView();
-//                        }
-//                    }
-//                });
-//        // TODO: 2019/9/28 getUserFromNet
-//        load(username, password);
     }
 
-    public void load(final String username, String password) {
+    public void update(final String username, String password) {
+        UserLogin userLogin = new UserLogin(username, password);
+        mILoginModel.setUserLogin(userLogin);
+        mILoginModel.saveUserLoginToDisk();
         Observable.merge(mIUserModel.getUserInfoFromNet(), mIUserModel.getUserBaseBeanFromNet())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<RealmObject>() {
                     @Override
                     public void onCompleted() {
+                        mView.showLoading(false);
                         //talking data 注册登陆
                         TCAgent.onRegister(username, TDAccount.AccountType.REGISTERED, username);
                         TCAgent.onLogin(username, TDAccount.AccountType.REGISTERED, username);
+//                        mView.toMainView();
                     }
 
                     @Override
@@ -137,16 +109,16 @@ public class LoginPresenter implements LoginContract.presenter {
                         LoggerUtil.printStack(e);
                         mView.showLoading(false);
                         if (e.getMessage() == null) {
-                            mView.showFailMessage("获取失败");
+//                            mView.showFailMessage("获取失败");
                         } else {
-                            mView.showFailMessage(e.getMessage().toUpperCase());
+//                            mView.showFailMessage(e.getMessage().toUpperCase());
                         }
                     }
 
                     @Override
                     public void onNext(RealmObject realmObject) {
                         if (realmObject instanceof UserInfo) {
-                            mILoginModel.saveUserLoginToDisk();
+//                            mILoginModel.saveUserLoginToDisk();
                         }
                     }
                 });

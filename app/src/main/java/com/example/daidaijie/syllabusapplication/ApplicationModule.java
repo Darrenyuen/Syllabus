@@ -3,6 +3,7 @@ package com.example.daidaijie.syllabusapplication;
 import android.content.Context;
 
 import com.example.daidaijie.syllabusapplication.di.qualifier.realm.DefaultRealm;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
 import com.example.daidaijie.syllabusapplication.user.UserModel;
 
@@ -11,6 +12,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
+import retrofit2.Retrofit;
 
 /**
  * This is a Dagger module. We use this to pass in the Context dependency to the
@@ -33,7 +35,7 @@ public final class ApplicationModule {
 
     @Provides
     @Singleton
-    ILoginModel getLoginModel(@DefaultRealm Realm realm) {
-        return new LoginModel(realm);
+    ILoginModel getLoginModel(@DefaultRealm Realm realm, @SchoolRetrofit Retrofit retrofit) {
+        return new LoginModel(realm, retrofit);
     }
 }

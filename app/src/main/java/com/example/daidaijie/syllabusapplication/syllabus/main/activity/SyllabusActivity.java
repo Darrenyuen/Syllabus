@@ -308,9 +308,9 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
 //            Intent intent = new Intent(this, SyllabusCollectionActivity.class);
 //            startActivity(intent);
         } else if (id == R.id.nav_add_lesson) {//添加课程
-//            Toast.makeText(this, "正在开发中...", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, CustomizeActivity.class);
-            startActivity(intent);
+            Toast.makeText(this, "正在开发中...", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(this, CustomizeActivity.class);
+//            startActivity(intent);
         }
         //点击后关闭drawerLayout
         mDrawerLayout.closeDrawer(GravityCompat.START);

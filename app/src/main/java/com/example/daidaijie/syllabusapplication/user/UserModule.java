@@ -27,14 +27,16 @@ public class UserModule {
     @UserRealm
     @PerUser
     Realm provideUserRealm(Context context, ILoginModel loginModel) {
-        RealmConfiguration.Builder builder = new RealmConfiguration.Builder(context)
-                .schemaVersion(App.userVersion)
-                .name(loginModel.getUserLogin().getUsername() + ".realm");
-        if (App.isDebug) {
-            builder.deleteRealmIfMigrationNeeded();
+        if (loginModel.getUserLogin() != null) {
+            RealmConfiguration.Builder builder = new RealmConfiguration.Builder(context)
+                    .schemaVersion(App.userVersion)
+                    .name(loginModel.getUserLogin().getUsername() + ".realm");
+            if (App.isDebug) {
+                builder.deleteRealmIfMigrationNeeded();
+            }
+            return Realm.getInstance(builder.build());
         }
-
-        return Realm.getInstance(builder.build());
+        return null;
     }
 
     @Provides

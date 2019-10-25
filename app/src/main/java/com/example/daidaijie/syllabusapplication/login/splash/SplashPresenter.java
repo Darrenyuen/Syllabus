@@ -27,6 +27,10 @@ public class SplashPresenter implements SplashContract.presenter {
 
     @Override
     public void start() {
+//        if (mILoginModel.getAuthLogin()== null) {
+//            mView.toLoginView();
+//        } else mView.toMainView();
+
         mILoginModel.getUserLoginFromCache()
                 .subscribe(new Subscriber<UserLogin>() {
                     UserLogin mUserLogin;
