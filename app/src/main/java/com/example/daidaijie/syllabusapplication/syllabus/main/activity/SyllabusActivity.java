@@ -93,7 +93,6 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
     //学期
     private TextView semesterTextView;
 
-
     private SyllabusPagerAdapter syllabusPagerAdapter;
     private WeekAdapter mWeekAdapter;
 
@@ -230,12 +229,14 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         SyllabusComponent.destroy();
+        Log.d(TAG, "onDestroy: ");
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVED_PAGE_POSITION, mSyllabusViewPager.getCurrentItem());
+        Log.d(TAG, "onSaveInstanceState: ");
     }
 
     private void setToolBarTitle(String title) {
@@ -308,9 +309,9 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
 //            Intent intent = new Intent(this, SyllabusCollectionActivity.class);
 //            startActivity(intent);
         } else if (id == R.id.nav_add_lesson) {//添加课程
-            Toast.makeText(this, "正在开发中...", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(this, CustomizeActivity.class);
-//            startActivity(intent);
+//            Toast.makeText(this, "正在开发中...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, CustomizeActivity.class);
+            startActivity(intent);
         }
         //点击后关闭drawerLayout
         mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -379,8 +380,6 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
     public void showUserInfo(UserInfo userInfo) {
         headImageDraweeView.setImageURI(Uri.parse(userInfo.getAvatar()));
         nicknameTextView.setText(userInfo.getNickname());
-        Log.d(TAG, "showUserInfo: " + userInfo.getToken());
-        Log.d(TAG, "showUserInfo: " + userInfo.getUser_id());
     }
 
     @Override
@@ -426,4 +425,6 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
             return true;
         }
     }
+
+    
 }

@@ -1,5 +1,7 @@
 package com.example.daidaijie.syllabusapplication.user;
 
+import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.daidaijie.syllabusapplication.App;
@@ -30,6 +32,8 @@ import rx.schedulers.Schedulers;
  */
 
 public class UserModel implements IUserModel {
+
+    private String TAG = this.getClass().getSimpleName();
 
     private UserInfo mUserInfo;
 
@@ -197,6 +201,8 @@ public class UserModel implements IUserModel {
                     public Observable<UserInfo> call(HttpResult<UserInfo> userInfoHttpResult) {
                         if (RetrofitUtil.isSuccessful(userInfoHttpResult)) {
                             mUserInfo = userInfoHttpResult.getData();
+//                            Log.d(TAG, "call: " + " " + mUserInfo.getClasses().get(0).getId() + " " +  mUserInfo.getClasses().get(0).getCredit() + mUserInfo.getClasses().get(0).getRoom() + mUserInfo.getClasses().get(0).getTeacher()+ " " + mUserInfo.getClasses().get(0).getDuration());
+//                            Log.d(TAG, "call: " + " " + mILoginModel.getCurrentSemester());
                             mUserInfo.setUsername(mILoginModel.getUserLogin().getUsername());
                             Realm realm = getRealm();
                             realm.executeTransaction(new Realm.Transaction() {
@@ -225,8 +231,7 @@ public class UserModel implements IUserModel {
                             EventBus.getDefault().post(new UpdateUserInfoEvent());
                             return Observable.just(mUserInfo);
                         } else {
-//                            return Observable.error(new Throwable(userInfoHttpResult.getMessage()));
-                            return null;
+                            return Observable.error(new Throwable(userInfoHttpResult.getMessage()));
                         }
                     }
                 });

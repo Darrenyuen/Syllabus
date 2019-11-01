@@ -38,7 +38,6 @@ public class Lesson extends RealmObject implements Serializable {
      */
 
     private String TAG = this.getClass().getSimpleName();
-
     @Ignore
     private Days days;
 
@@ -59,7 +58,6 @@ public class Lesson extends RealmObject implements Serializable {
     }
 
     public Days getDays() {
-        Log.d(TAG, "getDays: " + days.getW0() + " " + days.getW1() + " " + days.getW2() + " " + days.getW3() + " " + days.getW4() + " " + days.getW5() + " " + days.getW6());
         return days;
     }
 
@@ -116,7 +114,6 @@ public class Lesson extends RealmObject implements Serializable {
     }
 
     public List<TimeGrid> getTimeGrids() {
-        Log.d(TAG, "getTimeGrids: " + mTimeGrids.get(0));
         return mTimeGrids;
     }
 
@@ -323,6 +320,10 @@ public class Lesson extends RealmObject implements Serializable {
         private String w3;
         private String w2;
         private String w5;
+
+        public Days() {
+            super();
+        }
 
         public Days(String w0, String w1, String w2, String w3, String w4, String w5, String w6) {
             super();

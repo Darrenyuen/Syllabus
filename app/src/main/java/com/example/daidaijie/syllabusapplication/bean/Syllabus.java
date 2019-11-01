@@ -1,5 +1,11 @@
 package com.example.daidaijie.syllabusapplication.bean;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import com.example.daidaijie.syllabusapplication.App;
+import com.example.daidaijie.syllabusapplication.syllabus.CustomizeLessonDataBase;
 import com.example.daidaijie.syllabusapplication.util.ColorUtil;
 import com.example.daidaijie.syllabusapplication.util.LoggerUtil;
 
@@ -19,6 +25,7 @@ import io.realm.annotations.Ignore;
  * 课表类，储存一个课表
  */
 public class Syllabus extends RealmObject {
+    private String TAG = this.getClass().getSimpleName();
 
     private RealmList<SyllabusGrid> mSyllabusGrids;
 
@@ -27,11 +34,15 @@ public class Syllabus extends RealmObject {
 
     private Semester mSemester;
 
+    private RealmList<Lesson> lessonList;
+
     private static final String timeLists = "1234567890ABC";
+
 
     public Syllabus() {
         mLessonMap = new HashMap<>();
         mSyllabusGrids = new RealmList<>();
+        lessonList = new RealmList<>();
         for (int i = 0; i < 7 * 13; i++) {
             mSyllabusGrids.add(new SyllabusGrid());
         }
@@ -112,6 +123,78 @@ public class Syllabus extends RealmObject {
         int colorIndex = 0;
         this.setSemester(new Semester(semester.getStartYear(), semester.getSeason()));
         removeSystemLesson(realm, semester);
+        /**
+         * 读入自定义的课程
+         */
+        CustomizeLessonDataBase customizeLessonDataBase = new CustomizeLessonDataBase(App.getContext(), "custom_lesson", null, 1);
+        SQLiteDatabase sqLiteDatabase = customizeLessonDataBase.getReadableDatabase();
+
+        Log.d(TAG, "convertSyllabus: " + semester.getYearString() + " " + semester.getSeasonString());
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from customize_lesson where years like ? and semester=?", new String[]{semester.getYearString(), semester.getSeasonString()});
+        Lesson tempLesson;
+
+        while (cursor.moveToNext()) {
+            tempLesson = new Lesson();
+            tempLesson.setId(cursor.getString(cursor.getColumnIndex("id")));
+            tempLesson.setName(cursor.getString(cursor.getColumnIndex("name")));
+            tempLesson.setRoom(cursor.getString(cursor.getColumnIndex("classroom")));
+            tempLesson.setDuration(cursor.getString(cursor.getColumnIndex("week")));
+            String detailTime = cursor.getString(cursor.getColumnIndex("detail"));
+
+            Lesson.Days tempDays = new Lesson.Days();
+            String day = detailTime.substring(0, 3);
+            Log.d(TAG, "convertSyllabus: " + day);
+            String[] time = detailTime.substring(4, 7).split("-");
+            Log.d(TAG, "convertSyllabus: " + day);
+            if (time[0].equals("0")) {
+                time[0] = "10";
+            } else if (time[0].equals("A")) {
+                time[0] = "11";
+            } else if (time[0].equals("B")) {
+                time[0] = "12";
+            } else if (time[0].equals("C")){
+                time[0] = "13";
+            }
+
+            if (time[1].equals("0")) {
+                time[1] = "10";
+            } else if (time[1].equals("A")) {
+                time[1] = "11";
+            } else if (time[1].equals("B")) {
+                time[1] = "12";
+            } else if (time[1].equals("C")){
+                time[1] = "13";
+            }
+            StringBuffer timeOfDay = new StringBuffer();
+            for (int i = Integer.parseInt(time[0]); i <= Integer.parseInt(time[1]); i++) {
+                if (i == 10) {
+                    timeOfDay.append("0");
+                } else if ( i == 11) {
+                    timeOfDay.append("A");
+                } else if (i == 12) {
+                    timeOfDay.append("B");
+                } else if (i == 13) {
+                    timeOfDay.append("C");
+                } else {
+                    timeOfDay.append(i);
+                }
+            }
+
+            switch (day) {
+                case "星期日": tempDays.setW0(String.valueOf(timeOfDay)); break;
+                case "星期一": tempDays.setW1(String.valueOf(timeOfDay)); break;
+                case "星期二": tempDays.setW2(String.valueOf(timeOfDay)); break;
+                case "星期三": tempDays.setW3(String.valueOf(timeOfDay)); break;
+                case "星期四": tempDays.setW4(String.valueOf(timeOfDay)); break;
+                case "星期五": tempDays.setW5(String.valueOf(timeOfDay)); break;
+                case "星期六": tempDays.setW6(String.valueOf(timeOfDay)); break;
+            }
+
+            tempLesson.setDays(tempDays);
+            lessons.add(tempLesson);
+
+        }
+        sqLiteDatabase.close();
 
         for (final Lesson lesson : lessons) {
             //将lesson的时间格式化
@@ -177,6 +260,28 @@ public class Syllabus extends RealmObject {
                 }
             }
         });
+    }
+
+    /**
+     * 为添加课表
+     * @param realm
+     * @return
+     */
+    public RealmList<Lesson> loadLessonForCustomizeUse(Realm realm) {
+        mLessonMap.clear();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Lesson> realmResults = realm.where(Lesson.class)
+                        .equalTo("mSemester.season", mSemester.getSeason())
+                        .equalTo("mSemester.startYear", mSemester.getStartYear()).findAll();
+                for (Lesson lesson : realmResults) {
+                    mLessonMap.put(new LessonID(lesson.getLongID()), lesson);
+                    lessonList.add(lesson);
+                }
+            }
+        });
+        return lessonList;
     }
 
     public void addLessonToSyllabus(Lesson lesson, Semester semester, int color) {

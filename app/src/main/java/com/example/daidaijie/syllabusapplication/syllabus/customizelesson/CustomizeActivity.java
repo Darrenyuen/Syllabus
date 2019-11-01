@@ -3,6 +3,7 @@ package com.example.daidaijie.syllabusapplication.syllabus.customizelesson;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,13 +16,16 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.base.BaseActivity;
+import com.example.daidaijie.syllabusapplication.syllabus.SyllabusComponent;
+import com.example.daidaijie.syllabusapplication.util.SnackbarUtil;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-public class CustomizeActivity extends BaseActivity implements View.OnClickListener {
+public class CustomizeActivity extends BaseActivity implements CustomizeContract.view, View.OnClickListener {
     private String TAG = this.getClass().getSimpleName();
 
     @BindView(R.id.toolbar)
@@ -30,14 +34,12 @@ public class CustomizeActivity extends BaseActivity implements View.OnClickListe
     EditText name;
     @BindView(R.id.classroomEditText)
     EditText classroom;
-    @BindView(R.id.radioGroup)
-    RadioGroup radioGroup;
-    @BindView(R.id.customWeekButton)
-    RadioButton customWeekButton;
+    @BindView(R.id.customWeek)
+    TextView week;
     @BindView(R.id.detail)
     TextView detail;
-    @BindView(R.id.submitButton)
-    Button submitButton;
+    @BindView(R.id.addLessonButton)
+    Button addLessonButton;
 
     private ArrayList<Integer> startWeek;
     private ArrayList<ArrayList<Integer>> endWeek;
@@ -46,6 +48,7 @@ public class CustomizeActivity extends BaseActivity implements View.OnClickListe
 
     private String weekSelected;
 
+    @Inject
     CustomizePresenter customizePresenter;
 
     @Override
@@ -53,14 +56,22 @@ public class CustomizeActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setupTitleBar(mToolbar);
 
-        customizePresenter = new CustomizePresenter(this);
-        customWeekButton.setOnClickListener(this);
+        DaggerCustomizeComponent.builder()
+                .syllabusComponent(SyllabusComponent.getINSTANCE())
+                .customizeModule(new CustomizeModule(this))
+                .build().inject(this);
+
+        customizePresenter.start();
+
+        week.setOnClickListener(this);
         detail.setOnClickListener(this);
-        submitButton.setOnClickListener(this);
+        addLessonButton.setOnClickListener(this);
+
         startWeek = new ArrayList<>();
         endWeek = new ArrayList<>();
         day = new ArrayList<>();
         time = new ArrayList<>();
+
         for (int i = 1; i<= 18; i++) {
             startWeek.add(i);
         }
@@ -91,26 +102,19 @@ public class CustomizeActivity extends BaseActivity implements View.OnClickListe
                 time.add("C");
             }
         }
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (i == R.id.singleWeekButton) {
-                    weekSelected = "single";
-                } else if (i == R.id.doubleWeekButton) {
-                    weekSelected = "double";
-                } else {
-                    weekSelected = chooseWeek();
-                }
-            }
-        });
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.detail: chooseDetail();break;
-            case R.id.submitButton:
-                submit(name.getText().toString(), classroom.getText().toString(), weekSelected, detail.getText().toString());
+            case R.id.customWeek: chooseWeek(); break;
+            case R.id.addLessonButton:
+                // TODO: 2019/11/1 周数选择还存在问题 
+                Log.d(TAG, "onClick: " + Calendar.getInstance().getTimeInMillis());
+                Log.d(TAG, "onClick: " + " " + name.getText().toString()+ " " + classroom.getText().toString()+ " " + weekSelected+ " " + detail.getText().toString());
+                customizePresenter.addLesson(name.getText().toString(), classroom.getText().toString(), weekSelected, detail.getText().toString());
                 break;
         }
     }
@@ -120,12 +124,13 @@ public class CustomizeActivity extends BaseActivity implements View.OnClickListe
         return R.layout.activity_custom_lesson;
     }
 
+    @Override
     public String chooseWeek() {
         OptionsPickerView optionsPickerView = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int i, int i1, int i2, View view) {
-                final String weekSelected = startWeek.get(i) + "-" + endWeek.get(i).get(i1);
-                customWeekButton.setText(weekSelected);
+                weekSelected = startWeek.get(i) + "-" + endWeek.get(i).get(i1);
+                week.setText(weekSelected);
             }
         }).setTitleText("周数选择")
                 .setContentTextSize(18)
@@ -137,9 +142,11 @@ public class CustomizeActivity extends BaseActivity implements View.OnClickListe
                 .build();
         optionsPickerView.setPicker(startWeek, endWeek);
         optionsPickerView.show();
+        Log.d(TAG, "chooseWeek: " + weekSelected);
         return weekSelected;
     }
 
+    @Override
     public void chooseDetail() {
         OptionsPickerView optionsPickerView = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
@@ -159,9 +166,26 @@ public class CustomizeActivity extends BaseActivity implements View.OnClickListe
         optionsPickerView.show();
     }
 
-    public boolean submit(String name, String classroom, String weekSelected, String detail) {
-//        Log.d(TAG, "submit: " + name + " " + " " + classroom + " " + weekSelected + " " + detail);
+    @Override
+    public void finishThis() {
+        this.finish();
+    }
 
-        return false;
+    @Override
+    public void showSuccessMessage(String msg) {
+        SnackbarUtil.ShortSnackbar(
+                addLessonButton,
+                msg,
+                SnackbarUtil.Confirm
+        ).show();
+    }
+
+    @Override
+    public void showFailMessage(String msg) {
+        SnackbarUtil.ShortSnackbar(
+                addLessonButton,
+                msg,
+                SnackbarUtil.Alert
+        ).show();
     }
 }

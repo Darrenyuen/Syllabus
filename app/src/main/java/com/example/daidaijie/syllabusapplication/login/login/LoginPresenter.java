@@ -69,7 +69,9 @@ public class LoginPresenter implements LoginContract.presenter {
 
                     @Override
                     public void onError(Throwable throwable) {
+                        mView.showLoading(false);
                         mView.showFailMessage("获取失败");
+
                     }
 
                     @Override
@@ -83,7 +85,10 @@ public class LoginPresenter implements LoginContract.presenter {
                             mView.showLoading(false);
                             mILoginModel.saveAuthLoginToDisk();
                             mView.toMainView();
-                        } else mView.showFailMessage("获取失败");
+                        } else {
+                            mView.showLoading(false);
+                            mView.showFailMessage("获取失败");
+                        }
                     }
                 });
     }

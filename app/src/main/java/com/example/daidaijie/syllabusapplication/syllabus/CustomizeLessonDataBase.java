@@ -1,4 +1,4 @@
-package com.example.daidaijie.syllabusapplication.syllabus.customizelesson;
+package com.example.daidaijie.syllabusapplication.syllabus;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

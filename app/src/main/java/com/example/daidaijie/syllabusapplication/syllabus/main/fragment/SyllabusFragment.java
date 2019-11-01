@@ -48,6 +48,8 @@ import io.realm.Realm;
 
 public class SyllabusFragment extends BaseFragment implements SyllabusFragmentContract.view, SwipeRefreshLayout.OnRefreshListener {
 
+    private String TAG = this.getClass().getSimpleName();
+
     @BindView(R.id.timeLinearLayout)
     LinearLayout mTimeLinearLayout;
     @BindView(R.id.syllabusGridLayout)
@@ -289,6 +291,7 @@ public class SyllabusFragment extends BaseFragment implements SyllabusFragmentCo
 
     @Override
     public void showSyllabus(final Syllabus syllabus) {
+        Log.d(TAG, "showSyllabus: ");
         if (syllabus == null) {
             return;
         }
@@ -300,6 +303,7 @@ public class SyllabusFragment extends BaseFragment implements SyllabusFragmentCo
                 Lesson lesson = null;
                 //在当前节点上找在本周上课的课程
                 for (LessonID lessonID : syllabusGrid.getLessons()) {
+                    // TODO: 2019/10/31  
                     Lesson tmpLesson = syllabus.getLessonByID(lessonID);
 
                     // 避免崩溃
@@ -379,58 +383,6 @@ public class SyllabusFragment extends BaseFragment implements SyllabusFragmentCo
                                 Intent intent = LessonInfoActivity.getIntent(mActivity, finalLesson.getLongID());
                                 mActivity.startActivityForResult(intent, SyllabusActivity.REQUEST_LESSON_DETAIL);
                             }
-
-
-                            /*final SyllabusActivity activity = (SyllabusActivity) getActivity();
-                            if (!activity.isSingleLock()) {
-                                activity.setSingleLock(true);
-                                activity.showSelectWeekLayout(false);
-
-                                Set<Long> lessonSet = new LinkedHashSet<>();
-                                for (int k = 0; k < finalSpan; ++k) {
-                                    SyllabusGrid tmpSyllabusGrid = syllabus.getSyllabusGrids(finalI, finalJ + k);
-                                    lessonSet.addAll(tmpSyllabusGrid.getLessons());
-                                }
-                                List<Long> lessonIDs = new ArrayList<>();
-                                lessonIDs.addAll(lessonSet);
-                                if (lessonIDs.size() > 1) {
-                                    final SelectLessonPopWindow selectLessonPopWindow = new SelectLessonPopWindow(activity, lessonIDs);
-                                    selectLessonPopWindow.setBackgroundDrawable(new BitmapDrawable());
-                                    selectLessonPopWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-                                    selectLessonPopWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-                                    selectLessonPopWindow.setOnItemClickListener(new SelectLessonPopWindow.OnItemClickListener() {
-                                        @Override
-                                        public void onClick(long lessonID) {
-                                            Intent intent = LessonInfoActivity.getIntent(
-                                                    getActivity(), lessonID
-                                            );
-                                            activity.startActivityForResult(intent, 200);
-                                            selectLessonPopWindow.dismiss();
-
-                                        }
-                                    });
-                                    selectLessonPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss() {
-                                            activity.setSingleLock(false);
-                                        }
-                                    });
-                                    selectLessonPopWindow.showAtLocation(mSyllabusRootLayout, Gravity.CENTER, 0, 0);
-                                } else {
-                                    Intent intent = LessonInfoActivity.getIntent(
-                                            getActivity(), finalLesson.getLongID()
-                                    );
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity,
-                                                lessonLinearLayout, "lesson_grid");
-                                        activity.startActivityForResult(intent, 200, options.toBundle());
-                                    } else {
-                                        activity.startActivityForResult(intent, 200);
-                                    }
-                                }
-
-                            }*/
-
                         }
                     });
 

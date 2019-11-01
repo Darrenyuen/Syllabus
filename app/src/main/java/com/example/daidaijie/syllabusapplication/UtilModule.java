@@ -40,4 +40,5 @@ public class UtilModule {
     IConfigModel provideConfigModel() {
         return new ConfigModel();
     }
+
 }
