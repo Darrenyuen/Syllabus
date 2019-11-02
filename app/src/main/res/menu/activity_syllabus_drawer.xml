@@ -15,15 +15,16 @@
 
     <item android:title="功能">
         <menu>
-            <item
-                android:id="@+id/nav_todo"
-                android:icon="@drawable/ic_todo"
-                android:title="待办事项(未完成)"/>
 
             <item
                 android:id="@+id/nav_add_lesson"
                 android:icon="@drawable/ic_add_lesson"
-                android:title="添加课程(未完成)"/>
+                android:title="添加课程"/>
+
+            <item
+                android:id="@+id/nav_delete_lesson"
+                android:icon="@drawable/ic_delete_lesson"
+                android:title="删除课程"/>
 
         </menu>
     </item>
