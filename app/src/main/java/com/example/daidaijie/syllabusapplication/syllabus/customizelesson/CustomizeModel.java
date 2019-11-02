@@ -55,6 +55,7 @@ public class CustomizeModel implements ICustomizeModel{
         if (mSyllabus != null) {
             lessonList = mSyllabus.loadLessonForCustomizeUse(mRealm);
         }
+        // TODO: 2019/11/1 没有判断是否和已有的课程冲突
         Log.d(TAG, "test: " + lessonList.size());
 
         Log.d(TAG, "addLesson: " + mLoginModel.getCurrentSemester().getYearString());

@@ -126,10 +126,9 @@ public class Syllabus extends RealmObject {
         /**
          * 读入自定义的课程
          */
-        CustomizeLessonDataBase customizeLessonDataBase = new CustomizeLessonDataBase(App.getContext(), "custom_lesson", null, 1);
+        CustomizeLessonDataBase customizeLessonDataBase = new CustomizeLessonDataBase(App.getContext(), "customize_lesson", null, 1);
         SQLiteDatabase sqLiteDatabase = customizeLessonDataBase.getReadableDatabase();
 
-        Log.d(TAG, "convertSyllabus: " + semester.getYearString() + " " + semester.getSeasonString());
         Cursor cursor = sqLiteDatabase.rawQuery("select * from customize_lesson where years like ? and semester=?", new String[]{semester.getYearString(), semester.getSeasonString()});
         Lesson tempLesson;
 
@@ -140,12 +139,10 @@ public class Syllabus extends RealmObject {
             tempLesson.setRoom(cursor.getString(cursor.getColumnIndex("classroom")));
             tempLesson.setDuration(cursor.getString(cursor.getColumnIndex("week")));
             String detailTime = cursor.getString(cursor.getColumnIndex("detail"));
-
+            Log.d(TAG, "convertSyllabus: " + tempLesson.getName());
             Lesson.Days tempDays = new Lesson.Days();
             String day = detailTime.substring(0, 3);
-            Log.d(TAG, "convertSyllabus: " + day);
             String[] time = detailTime.substring(4, 7).split("-");
-            Log.d(TAG, "convertSyllabus: " + day);
             if (time[0].equals("0")) {
                 time[0] = "10";
             } else if (time[0].equals("A")) {

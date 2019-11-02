@@ -17,7 +17,6 @@ public class CustomizeLessonDataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        // TODO: 2019/11/1 创建一张数据表
         String sql = "create table customize_lesson(years varchar(64), semester varchar(64), id varchar(64), name varchar(64), classroom varchar(64), week varchar(64), detail varchar(64))";
         sqLiteDatabase.execSQL(sql);
     }

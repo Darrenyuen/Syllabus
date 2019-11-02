@@ -47,6 +47,7 @@ public class CustomizeActivity extends BaseActivity implements CustomizeContract
     private ArrayList<String> time;
 
     private String weekSelected;
+    private String timeSelected;
 
     @Inject
     CustomizePresenter customizePresenter;
@@ -111,10 +112,9 @@ public class CustomizeActivity extends BaseActivity implements CustomizeContract
             case R.id.detail: chooseDetail();break;
             case R.id.customWeek: chooseWeek(); break;
             case R.id.addLessonButton:
-                // TODO: 2019/11/1 周数选择还存在问题 
                 Log.d(TAG, "onClick: " + Calendar.getInstance().getTimeInMillis());
                 Log.d(TAG, "onClick: " + " " + name.getText().toString()+ " " + classroom.getText().toString()+ " " + weekSelected+ " " + detail.getText().toString());
-                customizePresenter.addLesson(name.getText().toString(), classroom.getText().toString(), weekSelected, detail.getText().toString());
+                customizePresenter.addLesson(name.getText().toString(), classroom.getText().toString(), weekSelected, timeSelected);
                 break;
         }
     }
@@ -151,8 +151,8 @@ public class CustomizeActivity extends BaseActivity implements CustomizeContract
         OptionsPickerView optionsPickerView = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int i, int i1, int i2, View view) {
-                String str = day.get(i) + " " + time.get(i1) + "-" + time.get(i2);
-                detail.setText(str);
+                timeSelected = day.get(i) + " " + time.get(i1) + "-" + time.get(i2);
+                detail.setText(timeSelected);
             }
         }).setTitleText("时间选择")
                 .setContentTextSize(18)
@@ -164,11 +164,6 @@ public class CustomizeActivity extends BaseActivity implements CustomizeContract
                 .build();
         optionsPickerView.setNPicker(day, time, time);
         optionsPickerView.show();
-    }
-
-    @Override
-    public void finishThis() {
-        this.finish();
     }
 
     @Override

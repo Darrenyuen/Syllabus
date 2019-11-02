@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.adapter.SyllabusPagerAdapter;
@@ -41,6 +40,7 @@ import com.example.daidaijie.syllabusapplication.event.ShowTimeEvent;
 import com.example.daidaijie.syllabusapplication.event.SyllabusEvent;
 import com.example.daidaijie.syllabusapplication.syllabus.SyllabusComponent;
 import com.example.daidaijie.syllabusapplication.syllabus.customizelesson.CustomizeActivity;
+import com.example.daidaijie.syllabusapplication.syllabus.deleteCustomizeLesson.DeleteLessonActivity;
 import com.example.daidaijie.syllabusapplication.syllabus.main.fragment.SyllabusFragment;
 import com.example.daidaijie.syllabusapplication.syllabus.main.fragment.SyllabusFragmentContract;
 import com.example.daidaijie.syllabusapplication.user.UserComponent;
@@ -304,12 +304,10 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
             mSyllabusMainPresenter.setWallpaper(deviceWidth, deviceHeight);
         } else if (id == R.id.nav_save_syllabus) {//保存课表
             EventBus.getDefault().post(new SaveSyllabusEvent(pageIndex));
-        } else if (id == R.id.nav_todo) {//待办事项
-            Toast.makeText(this, "正在开发中...", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(this, SyllabusCollectionActivity.class);
-//            startActivity(intent);
+        } else if (id == R.id.nav_delete_lesson) {//删除已添加课表
+            Intent intent = new Intent(this, DeleteLessonActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_add_lesson) {//添加课程
-//            Toast.makeText(this, "正在开发中...", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, CustomizeActivity.class);
             startActivity(intent);
         }

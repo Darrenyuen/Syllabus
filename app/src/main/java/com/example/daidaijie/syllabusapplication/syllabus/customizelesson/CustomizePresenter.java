@@ -18,6 +18,7 @@ public class CustomizePresenter  implements CustomizeContract.presenter{
 
     CustomizeContract.view mView;
     ICustomizeModel customizeModel;
+
     @Inject
     public CustomizePresenter(CustomizeContract.view view, ICustomizeModel iCustomizeModel) {
         mView = view;
@@ -80,8 +81,7 @@ public class CustomizePresenter  implements CustomizeContract.presenter{
             return;
         }
         customizeModel.addLesson(name, classroom, weekSelected, detail);
-        mView.showSuccessMessage("添加成功");
-        mView.finishThis();
+        mView.showSuccessMessage("添加成功，刷新即显示");
     }
 
 }

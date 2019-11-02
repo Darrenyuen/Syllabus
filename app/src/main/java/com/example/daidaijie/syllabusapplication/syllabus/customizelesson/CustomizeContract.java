@@ -10,8 +10,6 @@ import com.example.daidaijie.syllabusapplication.base.BaseView;
 public interface CustomizeContract {
     interface view extends BaseView<presenter> {
 
-        void finishThis();
-
         String chooseWeek();
 
         void chooseDetail();

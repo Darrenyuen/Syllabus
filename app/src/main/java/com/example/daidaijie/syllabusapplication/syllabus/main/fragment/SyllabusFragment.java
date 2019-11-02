@@ -303,7 +303,7 @@ public class SyllabusFragment extends BaseFragment implements SyllabusFragmentCo
                 Lesson lesson = null;
                 //在当前节点上找在本周上课的课程
                 for (LessonID lessonID : syllabusGrid.getLessons()) {
-                    // TODO: 2019/10/31  
+
                     Lesson tmpLesson = syllabus.getLessonByID(lessonID);
 
                     // 避免崩溃

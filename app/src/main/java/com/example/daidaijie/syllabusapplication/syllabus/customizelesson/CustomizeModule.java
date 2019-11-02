@@ -37,7 +37,7 @@ public class CustomizeModule {
 
     @Provides
     CustomizeLessonDataBase provideCustomizeLessonDataBase() {
-        return new CustomizeLessonDataBase((Context) view, "custom_lesson", null, 1);
+        return new CustomizeLessonDataBase((Context) view, "customize_lesson", null, 1);
     }
 
 }
