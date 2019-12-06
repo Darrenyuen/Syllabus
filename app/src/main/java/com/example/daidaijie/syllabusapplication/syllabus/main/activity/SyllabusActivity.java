@@ -1,5 +1,6 @@
 package com.example.daidaijie.syllabusapplication.syllabus.main.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,6 +15,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -326,7 +328,17 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_show_time) {
-            EventBus.getDefault().post(new ShowTimeEvent(mSyllabusViewPager.getCurrentItem()));
+//            EventBus.getDefault().post(new ShowTimeEvent(mSyllabusViewPager.getCurrentItem()));
+            View view = View.inflate(this, R.layout.dialog_detail_time, null);
+            new AlertDialog.Builder(this)
+                    .setView(view)
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).show();
+
         }
         return super.onOptionsItemSelected(item);
     }
