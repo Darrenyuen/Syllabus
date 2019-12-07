@@ -52,8 +52,8 @@ android {
         applicationId "com.hjsmallfly.syllabus"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 55
-        versionName "2.2.3"
+        versionCode 56
+        versionName "2.2.4"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }

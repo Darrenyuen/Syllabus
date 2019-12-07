@@ -35,6 +35,7 @@ import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.activity.EmailWebActivity;
 import com.example.daidaijie.syllabusapplication.activity.LibraryWebActivity;
 import com.example.daidaijie.syllabusapplication.activity.LoginInternetActivity;
+import com.example.daidaijie.syllabusapplication.bean.AuthLogin;
 import com.example.daidaijie.syllabusapplication.bean.UserLogin;
 import com.example.daidaijie.syllabusapplication.dialog.ThemePickerFragment;
 import com.example.daidaijie.syllabusapplication.base.BaseActivity;
@@ -398,6 +399,7 @@ public class MainActivity extends BaseActivity implements
                 @Override
                 public void execute(Realm realm) {
                     userList.get(0).deleteFromRealm();
+                    realm.where(AuthLogin.class).findAll().deleteAllFromRealm();
                 }
             });
             Intent intent = new Intent(this, LoginActivity.class);
@@ -588,7 +590,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void share(int scene) {
-        ShareWXUtil.shareUrl("http://fir.im/syllabus", "汕大课程表", "汕大课程表下载地址",
+        ShareWXUtil.shareUrl("http://fir.im/syllabus", "汕学派", "汕学派",
                 BitmapFactory.decodeResource(getResources(), R.drawable.ic_syllabus_icon), scene
         );
     }

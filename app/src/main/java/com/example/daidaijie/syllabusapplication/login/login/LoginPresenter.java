@@ -77,9 +77,6 @@ public class LoginPresenter implements LoginContract.presenter {
                     @Override
                     public void onNext(AuthLogin authLogin) {
                         mILoginModel.setAuthLogin(authLogin);
-                        Log.d(TAG, "onNext: " + authLogin.getCode());
-//                        AuthLogin.Data  data = authLogin.getData();
-//                        Log.d(TAG, "onNext: " + authLogin.getData().getToken());
                         Log.d(TAG, "onNext: " + authLogin.getData());
                         if (authLogin.getCode() == 200) {
                             mView.showLoading(false);

@@ -47,6 +47,7 @@ public class ExamPresenter implements ExamContract.presenter {
                         mView.showFresh(false);
                         isLoaded = true;
                         mView.setIsLoaded(isLoaded);
+                        mView.showNotFound(true);
                         if (e.getMessage() == null) {
                             mView.showFailMessage("获取失败");
                         } else {

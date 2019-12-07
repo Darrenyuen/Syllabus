@@ -37,6 +37,28 @@
         android:id="@+id/refreshExamLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        
+        <LinearLayout
+            android:id="@+id/notFoundLayout"
+            android:visibility="gone"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/icon_notfound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="暂时无法提供该服务，请前往学分制查看~"
+                android:layout_marginTop="20dp"
+                android:textSize="18sp"
+                android:textColor="@color/defaultTextColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/examListRecycleList"

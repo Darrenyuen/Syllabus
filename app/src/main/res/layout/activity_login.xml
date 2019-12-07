@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="汕大课程表"
+            android:text="汕学派"
             android:textColor="@color/material_white"
             android:textSize="24sp"/>
     </LinearLayout>
@@ -111,7 +111,7 @@
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:singleLine="true"
-        android:text="汕头大学©2019"
+        android:text="©2020"
         android:textColor="@color/material_white"
         android:textSize="14sp"/>
 

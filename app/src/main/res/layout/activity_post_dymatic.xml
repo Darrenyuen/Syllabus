@@ -240,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@color/material_white"
-                android:hint="部门名称, 如汕大课程表..."
+                android:hint="部门名称, 如汕学派..."
                 android:paddingBottom="16dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"

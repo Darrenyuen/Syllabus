@@ -201,8 +201,6 @@ public class UserModel implements IUserModel {
                     public Observable<UserInfo> call(HttpResult<UserInfo> userInfoHttpResult) {
                         if (RetrofitUtil.isSuccessful(userInfoHttpResult)) {
                             mUserInfo = userInfoHttpResult.getData();
-//                            Log.d(TAG, "call: " + " " + mUserInfo.getClasses().get(0).getId() + " " +  mUserInfo.getClasses().get(0).getCredit() + mUserInfo.getClasses().get(0).getRoom() + mUserInfo.getClasses().get(0).getTeacher()+ " " + mUserInfo.getClasses().get(0).getDuration());
-//                            Log.d(TAG, "call: " + " " + mILoginModel.getCurrentSemester());
                             mUserInfo.setUsername(mILoginModel.getUserLogin().getUsername());
                             Realm realm = getRealm();
                             realm.executeTransaction(new Realm.Transaction() {

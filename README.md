@@ -1,15 +1,10 @@
-## 汕大课程表v2.2.3
+## 汕学派v2.2.4
 
-#### 新版说明 
-- 修复只能显示16周课程的bug
-- 解决部分图片资源失真的问题
-- 更新相关系统配置，带来更好的用户体验
-- MY STU模块因后台数据问题导致缺少英语课程信息，课程作业信息只能是纯文本（无链接）故更多信息以校方官网为主为准。
+#### 新版说明 （期末版）
+- 扩展周数至20
+- 新增自定义课程与删除自定义课程的功能
+- 考试安排和成绩暂时显示不了啦，试试在19～20周的课表里手动添加考试与复习日程吧
 - 更多功能敬请期待……
 
-——by 汕大课程表Android团队
-
-![正常显示所有课程.jpg](https://github.com/jarvisyuen/Syllabus/blob/master/image/syllabus.jpg)
-
-![解决图片资源失真.jpg](https://github.com/jarvisyuen/Syllabus/blob/master/image/meal_card.jpg)
+——by 汕学派Android团队
  

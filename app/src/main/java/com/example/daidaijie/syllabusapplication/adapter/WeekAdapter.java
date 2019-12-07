@@ -65,7 +65,7 @@ public class WeekAdapter extends RecyclerView.Adapter<WeekAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.mWeekTextView.setText(position + 1 + "");
-        holder.mDivLine.setVisibility(position == 17 ? View.INVISIBLE : View.VISIBLE);
+        holder.mDivLine.setVisibility(position == 19 ? View.INVISIBLE : View.VISIBLE);
 
         holder.mWeekLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +87,7 @@ public class WeekAdapter extends RecyclerView.Adapter<WeekAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 18;
+        return 20;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

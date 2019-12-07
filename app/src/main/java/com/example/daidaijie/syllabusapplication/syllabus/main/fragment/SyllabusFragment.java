@@ -80,7 +80,7 @@ public class SyllabusFragment extends BaseFragment implements SyllabusFragmentCo
     private int mWeek;
 
     private int timeWidth;
-    private int detailTimeWidth;
+//    private int detailTimeWidth;
     private int gridWidth;
     private int gridHeight;
 
@@ -120,7 +120,7 @@ public class SyllabusFragment extends BaseFragment implements SyllabusFragmentCo
         gridWidth = deviceWidth * 2 / 15;
         timeWidth = deviceWidth - gridWidth * 7;
         gridHeight = getResources().getDimensionPixelOffset(R.dimen.syllabus_grid_height);
-        detailTimeWidth = getResources().getDimensionPixelOffset(R.dimen.detail_time_width);
+//        detailTimeWidth = getResources().getDimensionPixelOffset(R.dimen.detail_time_width);
 
         //解决滑动冲突
         mSyllabusScrollView.setSwipeRefreshLayout(mSyllabusRefreshLayout);
@@ -129,7 +129,7 @@ public class SyllabusFragment extends BaseFragment implements SyllabusFragmentCo
         mSyllabusRefreshLayout.setOnRefreshListener(this);
 
         showDate();
-        showDetailTime();
+//        showDetailTime();
         showTime();
 
         if (savedInstanceState != null) {
@@ -179,39 +179,39 @@ public class SyllabusFragment extends BaseFragment implements SyllabusFragmentCo
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void handleUpdateSyllabus(ShowTimeEvent event) {
-        if (event.messageWeek == mWeek) {
-            if (event.isHide) {
-                showDetailTime(false);
-                return;
-            }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void handleUpdateSyllabus(ShowTimeEvent event) {
+//        if (event.messageWeek == mWeek) {
+//            if (event.isHide) {
+//                showDetailTime(false);
+//                return;
+//            }
+//
+//            if (mDetailTimeLinearLayout.getVisibility() == View.VISIBLE) {
+//                showDetailTime(false);
+//            } else {
+//                showDetailTime(true);
+//            }
+//        }
+//    }
 
-            if (mDetailTimeLinearLayout.getVisibility() == View.VISIBLE) {
-                showDetailTime(false);
-            } else {
-                showDetailTime(true);
-            }
-        }
-    }
-
-    private void showDetailTime(boolean isShow) {
-        int visible = isShow ? View.VISIBLE : View.GONE;
-        mDetailTimeLinearLayout.setVisibility(visible);
-        mTopBlankView.setVisibility(visible);
-    }
+//    private void showDetailTime(boolean isShow) {
+//        int visible = isShow ? View.VISIBLE : View.GONE;
+//        mDetailTimeLinearLayout.setVisibility(visible);
+//        mTopBlankView.setVisibility(visible);
+//    }
 
     private void showDate() {
         {
-            mTopBlankView = (TextView) getActivity().getLayoutInflater()
-                    .inflate(R.layout.week_grid, null, false);
+//            mTopBlankView = (TextView) getActivity().getLayoutInflater()
+//                    .inflate(R.layout.week_grid, null, false);
 
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    detailTimeWidth, ViewGroup.LayoutParams.MATCH_PARENT
-            );
-            mTopBlankView.setText("上课时间");
-            mDateLinearLayout.addView(mTopBlankView, layoutParams);
-            mTopBlankView.setVisibility(View.GONE);
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+//                    detailTimeWidth, ViewGroup.LayoutParams.MATCH_PARENT
+//            );
+//            mTopBlankView.setText("上课时间");
+//            mDateLinearLayout.addView(mTopBlankView, layoutParams);
+//            mTopBlankView.setVisibility(View.GONE);
         }
 
         {
@@ -262,21 +262,21 @@ public class SyllabusFragment extends BaseFragment implements SyllabusFragmentCo
     /**
      * 显示具体时间
      */
-    private void showDetailTime() {
-        String[] detailTimeStrings = mActivity.getResources().getStringArray(R.array.detail_time);
-
-        for (int i = 1; i <= 13; i++) {
-            TextView timeTextView = (TextView) LayoutInflater
-                    .from(getActivity()).inflate(R.layout.detail_time_grid, null, false);
-            timeTextView.setText(detailTimeStrings[i - 1]);
-            if (i == 13) {
-                timeTextView.setBackground(getResources().getDrawable(R.drawable.bg_grid_time_end));
-            }
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    detailTimeWidth, gridHeight);
-            mDetailTimeLinearLayout.addView(timeTextView, layoutParams);
-        }
-    }
+//    private void showDetailTime() {
+//        String[] detailTimeStrings = mActivity.getResources().getStringArray(R.array.detail_time);
+//
+//        for (int i = 1; i <= 13; i++) {
+//            TextView timeTextView = (TextView) LayoutInflater
+//                    .from(getActivity()).inflate(R.layout.detail_time_grid, null, false);
+//            timeTextView.setText(detailTimeStrings[i - 1]);
+//            if (i == 13) {
+//                timeTextView.setBackground(getResources().getDrawable(R.drawable.bg_grid_time_end));
+//            }
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+//                    detailTimeWidth, gridHeight);
+//            mDetailTimeLinearLayout.addView(timeTextView, layoutParams);
+//        }
+//    }
 
 
     @Override
@@ -446,7 +446,7 @@ public class SyllabusFragment extends BaseFragment implements SyllabusFragmentCo
 
     @Override
     public void onRefresh() {
-        showDetailTime(false);
+//        showDetailTime(false);
         mSyllabusFragmentPresenter.loadData();
     }
 
@@ -454,7 +454,7 @@ public class SyllabusFragment extends BaseFragment implements SyllabusFragmentCo
     @Subscribe
     public void saveSyllaus(SaveSyllabusEvent saveSyllabusEvent) {
         if (saveSyllabusEvent.position == mWeek) {
-            showDetailTime(false);
+//            showDetailTime(false);
             Bitmap syllabusBitmap = BitmapSaveUtil.getViewBitmap(mSyllabusGridLayout);
             Bitmap timeBitmap = BitmapSaveUtil.getViewBitmap(mTimeLinearLayout);
             Bitmap dayBitmap = BitmapSaveUtil.getViewBitmap(mDateLinearLayout);

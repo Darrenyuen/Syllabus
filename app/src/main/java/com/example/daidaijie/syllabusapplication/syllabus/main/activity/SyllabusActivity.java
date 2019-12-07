@@ -332,6 +332,7 @@ public class SyllabusActivity extends BaseActivity implements NavigationView.OnN
             View view = View.inflate(this, R.layout.dialog_detail_time, null);
             new AlertDialog.Builder(this)
                     .setView(view)
+                    .setCancelable(true)
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

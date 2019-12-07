@@ -38,10 +38,10 @@
                     android:id="@+id/titleTextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="48dp"
+                    android:layout_marginRight="70dp"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:text="汕大课程表"
+                    android:text="汕学派"
                     android:textColor="@android:color/white"
                     android:textSize="22sp" />
 

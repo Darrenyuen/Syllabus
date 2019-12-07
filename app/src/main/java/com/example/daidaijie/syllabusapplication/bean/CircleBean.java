@@ -9,7 +9,7 @@ public class CircleBean {
 
 
     /**
-     * content : 如果汕大课程表是个网页app
+     * content : 如果汕学派是个网页app
      * user : {"account":"15jhzhao3","nickname":"HoraceChiu","image":"http://file.bmob.cn/M03/EF/4D/oYYBAFebXOKAFp0WAACB0FUPsuY523.jpg","id":2184}
      * description :
      * comments : [{"uid":1,"id":329}]

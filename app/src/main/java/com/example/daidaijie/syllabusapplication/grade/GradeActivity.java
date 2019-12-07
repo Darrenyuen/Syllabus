@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
@@ -46,6 +47,8 @@ public class GradeActivity extends BaseActivity implements GradeContract.view, S
     TextView mSumCreditTextView;
     @BindView(R.id.sumGpaTextView)
     TextView mSumGpaTextView;
+    @BindView(R.id.notFoundLayout)
+    LinearLayout notFoundLayout;
 
     private GradeListAdapter mGradeListAdapter;
 
@@ -158,6 +161,13 @@ public class GradeActivity extends BaseActivity implements GradeContract.view, S
                 msg,
                 SnackbarUtil.Info
         ).show();
+    }
+
+    @Override
+    public void showNotFound(boolean isShow) {
+        if (notFoundLayout.getVisibility() == View.GONE) {
+            notFoundLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override

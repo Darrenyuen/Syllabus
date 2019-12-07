@@ -14,7 +14,7 @@ import rx.Observable;
  * Date: 2019/10/7
  */
 public interface PushImageToSmmsApi {
-    @Headers("user-agent: Syllabus/2.2.3")
+    @Headers("user-agent: Syllabus/2.2.4")
     @Multipart
     @POST("api/upload")
     Observable<SmmsResult> pushImage(@Part MultipartBody.Part part);

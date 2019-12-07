@@ -57,7 +57,7 @@ public class WeekPickerFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_week_picker, null);
         numberPicker = (NumberPicker) view.findViewById(R.id.numberPickerView);
         selectDateButton = (FButton) view.findViewById(R.id.selectDateButton);
-        numberPicker.setMaxValue(18);
+        numberPicker.setMaxValue(20);
         numberPicker.setMinValue(1);
 
         setFButtonDate(selectTime.getYear() + "", selectTime.getMonthOfYear() + "", selectTime.getDayOfMonth() + "");

@@ -26,7 +26,7 @@ public class SchoolDymatic {
      * }
      * post_time : 2016-09-13 17:55:15
      * content :
-     * source : 汕大课程表团队
+     * source : 汕学派团队
      * user : {"image":"http://bmob-cdn-5361.b0.upaiyun.com/2016/09/13/1cee50d2285e4f41802335d179080d85.jpg","nickname":"铲晒菲律宾的香蕉🐔🌶","id":2,"account":"14jhwang"}
      * comments : [{"uid":1137,"id":716}]
      */

@@ -73,10 +73,10 @@ public class CustomizeActivity extends BaseActivity implements CustomizeContract
         day = new ArrayList<>();
         time = new ArrayList<>();
 
-        for (int i = 1; i<= 18; i++) {
+        for (int i = 1; i<= 20; i++) {
             startWeek.add(i);
         }
-        for (int i = 1; i<=18; i++) {
+        for (int i = 1; i<= 20; i++) {
             endWeek.add(startWeek);
         }
         for (int i=0; i<7; i++) {

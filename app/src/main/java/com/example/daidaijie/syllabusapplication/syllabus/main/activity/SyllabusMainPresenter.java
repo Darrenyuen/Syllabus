@@ -139,8 +139,8 @@ public class SyllabusMainPresenter implements SyllabusContract.presenter {
         int week = period.getWeeks() + 1;
         if (week < 1) {
             week = 1;
-        } else if (week > 18) {
-            week = 18;
+        } else if (week > 20) {
+            week = 20;
         }
 
         mView.moveToWeek(week);

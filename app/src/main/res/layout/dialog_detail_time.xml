@@ -30,7 +30,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="校本部"
@@ -39,7 +39,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="叠金校区"/>
@@ -62,7 +62,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="8:00-8:45"
@@ -71,7 +71,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="8:10-8:55"/>
@@ -95,7 +95,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="8:55-9:40"
@@ -104,7 +104,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="9:05-9:50"/>
@@ -127,7 +127,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="10:00-10:45"
@@ -136,7 +136,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="10:10-10:55"/>
@@ -160,7 +160,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="10:55-11:40"
@@ -169,7 +169,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="11:05-11:50"/>
@@ -192,7 +192,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="11:50-12:35"
@@ -201,7 +201,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="12:00-12:45"/>
@@ -225,7 +225,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="14:00-14:45"
@@ -234,7 +234,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="14:10-14:55"/>
@@ -257,7 +257,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="14:55-15:40"
@@ -266,7 +266,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="15:05-15:50"/>
@@ -290,7 +290,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="16:00-16:45"
@@ -299,7 +299,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="16:10-16:55"/>
@@ -322,7 +322,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="16:55-17:40"
@@ -331,7 +331,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="17:05-17:50"/>
@@ -355,7 +355,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="17:50-18:35"
@@ -364,7 +364,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="18:00-18:45"/>
@@ -387,7 +387,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="19:20-20:05"
@@ -396,7 +396,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="19:30-20:15"/>
@@ -420,7 +420,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="20:15-21:00"
@@ -429,7 +429,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="20:25-21:10"/>
@@ -452,7 +452,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="21:10-21:55"
@@ -461,7 +461,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="21:20-22:05"/>
@@ -486,16 +486,15 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="校本部"
                         android:layout_width="0dp"/>
                     <TextView
-                        android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="叠金校区"/>
@@ -518,7 +517,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="08:00 - 10:00"
@@ -527,7 +526,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="08:00 - 10:00"/>
@@ -551,7 +550,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="10:45 - 12:45"
@@ -560,7 +559,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="10:45 - 12:45"/>
@@ -583,7 +582,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="13:45 - 15:45"
@@ -592,7 +591,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="13:45 - 15:45"/>
@@ -616,7 +615,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="16:45 - 18:45"
@@ -625,7 +624,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="16:45 - 18:45"/>
@@ -648,7 +647,7 @@
                         android:layout_width="0dp" />
                     <TextView
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="19:45 - 22:15"
@@ -657,7 +656,7 @@
                         android:width="5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:textColor="@color/defaultTextColor"
                         android:textSize="18sp"
                         android:text="19:45 - 22:15"/>

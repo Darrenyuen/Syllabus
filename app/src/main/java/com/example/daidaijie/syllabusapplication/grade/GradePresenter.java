@@ -62,6 +62,7 @@ public class GradePresenter implements GradeContract.presenter {
                     @Override
                     public void onError(Throwable e) {
                         mView.showFresh(false);
+                        mView.showNotFound(true);
                         if (e.getMessage() == null) {
                             mView.showFailMessage("获取失败");
                         } else {
@@ -79,7 +80,8 @@ public class GradePresenter implements GradeContract.presenter {
                                 mView.showSuccessMessage("更新成功");
                             }
                         }else {
-                            mView.showInfoMessage("暂无成绩");
+//                            mView.showInfoMessage("暂无成绩");
+                            mView.showNotFound(true);
                         }
                         mView.setHeader(gradeStore);
                     }

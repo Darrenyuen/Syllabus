@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.daidaijie.syllabusapplication.R;
@@ -33,6 +34,8 @@ public class ExamActivity extends BaseActivity implements ExamContract.view, Swi
     RecyclerView mExamListRecycleList;
     @BindView(R.id.refreshExamLayout)
     SwipeRefreshLayout mRefreshExamLayout;
+    @BindView(R.id.notFoundLayout)
+    LinearLayout notFoundLayout;
 
     private ExamAdapter mExamAdapter;
     Timer timer;
@@ -116,6 +119,13 @@ public class ExamActivity extends BaseActivity implements ExamContract.view, Swi
                 msg,
                 SnackbarUtil.Info
         ).show();
+    }
+
+    @Override
+    public void showNotFound(boolean isShow) {
+        if (notFoundLayout.getVisibility() == View.GONE) {
+            notFoundLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override

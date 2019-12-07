@@ -190,7 +190,7 @@ public class CommonWebActivity extends BaseActivity implements ShareWXDialog.OnS
     }
 
     private void share(int scene) {
-        ShareWXUtil.shareUrl(mWebView.getUrl(), mWebView.getTitle(), "汕大课程表分享",
+        ShareWXUtil.shareUrl(mWebView.getUrl(), mWebView.getTitle(), "汕学派分享",
                 BitmapFactory.decodeResource(getResources(), R.drawable.ic_syllabus_icon), scene
         );
     }

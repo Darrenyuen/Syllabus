@@ -26,6 +26,8 @@ public interface ExamContract {
 
         void showInfoMessage(String msg);
 
+        void showNotFound(boolean isShow);
+
         void showFailMessage(String msg);
 
         void showFresh(boolean isShow);
