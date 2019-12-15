@@ -12,6 +12,6 @@ import rx.Observable;
  */
 public interface LessonDetailApi {
 
-    @GET("credit/api/v2.1/member")
-    Observable<HttpResult<LessonDetailInfo>> getLessonDetail(@Query("class_id") long lessonID);
+    @GET("Info/DisplayKkb.aspx?")
+    Observable<String> getLessonDetail(@Query("ClassID") long lessonID);
 }

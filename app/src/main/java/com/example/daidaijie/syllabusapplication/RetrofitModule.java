@@ -1,6 +1,7 @@
 package com.example.daidaijie.syllabusapplication;
 
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.BmobRetrofit;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.CreditRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.LibraryRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.OARetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
@@ -75,6 +76,18 @@ public class RetrofitModule {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
+    }
+
+    @CreditRetrofit
+    @Provides
+    @Singleton
+    public Retrofit provideCreditRetrofit() {
+        return new Retrofit.Builder()
+                .baseUrl("http://credit.stu.edu.cn/")
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
     }
 
 

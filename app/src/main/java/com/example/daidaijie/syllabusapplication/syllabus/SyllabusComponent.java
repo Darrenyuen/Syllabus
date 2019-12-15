@@ -4,6 +4,7 @@ import com.example.daidaijie.syllabusapplication.AppComponent;
 import com.example.daidaijie.syllabusapplication.IConfigModel;
 import com.example.daidaijie.syllabusapplication.ILoginModel;
 import com.example.daidaijie.syllabusapplication.di.qualifier.realm.UserRealm;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.CreditRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
 import com.example.daidaijie.syllabusapplication.di.scope.PerModule;
 import com.example.daidaijie.syllabusapplication.user.UserComponent;
@@ -51,4 +52,7 @@ public abstract class SyllabusComponent {
 
     @SchoolRetrofit
     public abstract Retrofit getSchoolRetrofit();
+
+    @CreditRetrofit
+    public abstract Retrofit getCreditRetrofit();
 }

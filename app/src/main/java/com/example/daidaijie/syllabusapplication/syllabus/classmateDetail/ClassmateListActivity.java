@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -81,12 +80,6 @@ public class ClassmateListActivity extends BaseActivity implements ClassmateCont
                 .build().inject(this);
 
         mClassmatePresenter.start();
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mClassmatePresenter.loadData();
-            }
-        });
     }
 
     @Override
@@ -177,6 +170,6 @@ public class ClassmateListActivity extends BaseActivity implements ClassmateCont
 
     @Override
     public void onRefresh() {
-        mClassmatePresenter.loadData();
+        mClassmatePresenter.start();
     }
 }

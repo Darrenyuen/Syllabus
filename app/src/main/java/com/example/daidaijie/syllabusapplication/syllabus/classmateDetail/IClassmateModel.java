@@ -14,11 +14,11 @@ import rx.Observable;
 
 public interface IClassmateModel {
 
-    void getStuDentInfoNormal(IBaseModel.OnGetSuccessCallBack<List<StudentInfo>> getSuccessCallBack);
+//    void getStuDentInfoNormal(IBaseModel.OnGetSuccessCallBack<List<StudentInfo>> getSuccessCallBack);
 
-    void getLessonNormal(IBaseModel.OnGetSuccessCallBack<Lesson> getSuccessCallBack);
+//    void getLessonNormal(IBaseModel.OnGetSuccessCallBack<Lesson> getSuccessCallBack);
 
-    Observable<List<StudentInfo>> getStudentsFromNet();
+    Observable<String> getStudentsFromNet();
 
     void searchStudentsList(String keyword, IBaseModel.OnGetSuccessCallBack<List<StudentInfo>> getSuccessCallBack, IBaseModel.OnGetFailCallBack getFailCallBack);
 }

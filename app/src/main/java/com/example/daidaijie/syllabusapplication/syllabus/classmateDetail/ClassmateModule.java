@@ -1,6 +1,7 @@
 package com.example.daidaijie.syllabusapplication.syllabus.classmateDetail;
 
 import com.example.daidaijie.syllabusapplication.di.qualifier.realm.UserRealm;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.CreditRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
 import com.example.daidaijie.syllabusapplication.di.scope.PerActivity;
 import com.example.daidaijie.syllabusapplication.retrofitApi.LessonDetailApi;
@@ -43,7 +44,7 @@ public class ClassmateModule {
     @Provides
     IClassmateModel provideModel(ISyllabusModel syllabusModel,
                                  @UserRealm Realm realm,
-                                 @SchoolRetrofit Retrofit retrofit,
+                                 @CreditRetrofit Retrofit retrofit,
                                  long lessonID) {
         return new ClassmateModel(syllabusModel, realm, retrofit.create(LessonDetailApi.class), lessonID);
     }

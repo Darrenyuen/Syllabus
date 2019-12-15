@@ -13,7 +13,6 @@ import java.util.List;
 public interface ClassmateContract {
 
     interface presenter extends BasePresenter {
-        void loadData();
 
         void search(String keyword);
     }

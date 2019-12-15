@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.daidaijie.syllabusapplication.di.qualifier.gson.DefaultGson;
 import com.example.daidaijie.syllabusapplication.di.qualifier.realm.DefaultRealm;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.BmobRetrofit;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.CreditRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.LibraryRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.OARetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
@@ -43,6 +44,9 @@ public interface AppComponent {
 
     @SchoolRetrofit
     Retrofit getSchoolRetrofit();
+
+    @CreditRetrofit
+    Retrofit getCreditRetrofit();
 
     @DefaultRealm
     Realm getDefaultRealm();

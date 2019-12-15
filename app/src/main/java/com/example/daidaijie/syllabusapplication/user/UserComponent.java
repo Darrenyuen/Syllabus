@@ -5,6 +5,7 @@ import com.example.daidaijie.syllabusapplication.IConfigModel;
 import com.example.daidaijie.syllabusapplication.ILoginModel;
 import com.example.daidaijie.syllabusapplication.di.qualifier.realm.DefaultRealm;
 import com.example.daidaijie.syllabusapplication.di.qualifier.realm.UserRealm;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.CreditRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.OARetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SmmsRetrofit;
@@ -43,6 +44,9 @@ public abstract class UserComponent {
 
     @SchoolRetrofit
     public abstract Retrofit getSchoolRetrofit();
+
+    @CreditRetrofit
+    public abstract Retrofit getCreditRetrofit();
 
     @SmmsRetrofit
     public abstract Retrofit getSmmsRetrofit();

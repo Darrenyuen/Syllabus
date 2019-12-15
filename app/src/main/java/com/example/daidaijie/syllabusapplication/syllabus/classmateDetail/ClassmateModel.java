@@ -1,5 +1,7 @@
 package com.example.daidaijie.syllabusapplication.syllabus.classmateDetail;
 
+import android.util.Log;
+
 import com.example.daidaijie.syllabusapplication.base.IBaseModel;
 import com.example.daidaijie.syllabusapplication.bean.HttpResult;
 import com.example.daidaijie.syllabusapplication.bean.Lesson;
@@ -17,6 +19,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -27,6 +30,8 @@ import rx.schedulers.Schedulers;
  */
 
 public class ClassmateModel implements IClassmateModel {
+
+    private String TAG = this.getClass().getSimpleName();
 
     long mLessonID;
 
@@ -46,67 +51,44 @@ public class ClassmateModel implements IClassmateModel {
         mLessonID = lessonID;
     }
 
-    @Override
-    public void getStuDentInfoNormal(IBaseModel.OnGetSuccessCallBack<List<StudentInfo>> getSuccessCallBack) {
-        if (mStudentInfos != null) {
-            getSuccessCallBack.onGetSuccess(mStudentInfos);
-            return;
-        }
+//    @Override
+//    public void getStuDentInfoNormal(IBaseModel.OnGetSuccessCallBack<List<StudentInfo>> getSuccessCallBack) {
+//        if (mStudentInfos != null) {
+//            getSuccessCallBack.onGetSuccess(mStudentInfos);
+//            return;
+//        }
+//
+//        mRealm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                RealmResults<StudentInfo> results = realm.where(StudentInfo.class)
+//                        .equalTo("lessonId", mLessonID)
+//                        .findAll();
+//                if (results.size() != 0) {
+//                    mStudentInfos = realm.copyFromRealm(results.sort("number"));
+//                }
+//            }
+//        });
+//        if (mStudentInfos != null) {
+//            getSuccessCallBack.onGetSuccess(mStudentInfos);
+//        }
+//    }
 
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                RealmResults<StudentInfo> results = realm.where(StudentInfo.class)
-                        .equalTo("lessonId", mLessonID)
-                        .findAll();
-                if (results.size() != 0) {
-                    mStudentInfos = realm.copyFromRealm(results.sort("number"));
-                }
-            }
-        });
-        if (mStudentInfos != null) {
-            getSuccessCallBack.onGetSuccess(mStudentInfos);
-        }
-    }
+//    @Override
+//    public void getLessonNormal(final IBaseModel.OnGetSuccessCallBack<Lesson> getLessonSuccessCallBack) {
+//        mISyllabusModel.getSyllabusNormal(new IBaseModel.OnGetSuccessCallBack<Syllabus>() {
+//            @Override
+//            public void onGetSuccess(Syllabus syllabus) {
+//                getLessonSuccessCallBack.onGetSuccess(syllabus.getLessonByID(mLessonID));
+//            }
+//        }, null);
+//    }
 
     @Override
-    public void getLessonNormal(final IBaseModel.OnGetSuccessCallBack<Lesson> getLessonSuccessCallBack) {
-        mISyllabusModel.getSyllabusNormal(new IBaseModel.OnGetSuccessCallBack<Syllabus>() {
-            @Override
-            public void onGetSuccess(Syllabus syllabus) {
-                getLessonSuccessCallBack.onGetSuccess(syllabus.getLessonByID(mLessonID));
-            }
-        }, null);
-    }
-
-    @Override
-    public Observable<List<StudentInfo>> getStudentsFromNet() {
+    public Observable<String> getStudentsFromNet() {
         return mLessonDetailApi.getLessonDetail(mLessonID)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(new Func1<HttpResult<LessonDetailInfo>, Observable<List<StudentInfo>>>() {
-                    @Override
-                    public Observable<List<StudentInfo>> call(HttpResult<LessonDetailInfo> lessonDetailInfoHttpResult) {
-                        if (RetrofitUtil.isSuccessful(lessonDetailInfoHttpResult)) {
-                            mStudentInfos = lessonDetailInfoHttpResult.getData().getClass_info().getStudent();
-                            for (StudentInfo studentInfo : mStudentInfos) {
-                                studentInfo.setLessonId(mLessonID);
-                            }
-                            mRealm.executeTransaction(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    realm.where(StudentInfo.class)
-                                            .equalTo("lessonId", mLessonID)
-                                            .findAll().deleteAllFromRealm();
-                                    realm.copyToRealm(mStudentInfos);
-                                }
-                            });
-                            return Observable.just(mStudentInfos);
-                        } else {
-                            return Observable.error(new Throwable(lessonDetailInfoHttpResult.getMessage()));
-                        }
-                    }
-                });
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
