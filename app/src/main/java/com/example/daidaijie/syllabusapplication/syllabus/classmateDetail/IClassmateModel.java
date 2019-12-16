@@ -20,5 +20,5 @@ public interface IClassmateModel {
 
     Observable<String> getStudentsFromNet();
 
-    void searchStudentsList(String keyword, IBaseModel.OnGetSuccessCallBack<List<StudentInfo>> getSuccessCallBack, IBaseModel.OnGetFailCallBack getFailCallBack);
+    void searchStudentsList(String keyword, IBaseModel.OnGetSuccessCallBack<List<StudentInfo>> getSuccessCallBack, IBaseModel.OnGetFailCallBack getFailCallBack, List<StudentInfo> mStudentInfos);
 }

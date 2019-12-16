@@ -35,8 +35,6 @@ public class ClassmateModel implements IClassmateModel {
 
     long mLessonID;
 
-    List<StudentInfo> mStudentInfos;
-
     Realm mRealm;
 
     LessonDetailApi mLessonDetailApi;
@@ -94,7 +92,7 @@ public class ClassmateModel implements IClassmateModel {
     @Override
     public void searchStudentsList(final String keyword,
                                    final IBaseModel.OnGetSuccessCallBack<List<StudentInfo>> getSuccessCallBack,
-                                   final IBaseModel.OnGetFailCallBack getFailCallBack) {
+                                   final IBaseModel.OnGetFailCallBack getFailCallBack, List<StudentInfo> mStudentInfos) {
         if (mStudentInfos == null) {
             getFailCallBack.onGetFail();
             return;

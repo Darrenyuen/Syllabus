@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +32,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 public class ClassmateListActivity extends BaseActivity implements ClassmateContract.view, SwipeRefreshLayout.OnRefreshListener {
+
+    private String TAG = this.getClass().getSimpleName();
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -57,7 +60,6 @@ public class ClassmateListActivity extends BaseActivity implements ClassmateCont
 
     private static final String EXTRA_LESSON_ID
             = ClassmateListActivity.class.getCanonicalName() + ".LessonID";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

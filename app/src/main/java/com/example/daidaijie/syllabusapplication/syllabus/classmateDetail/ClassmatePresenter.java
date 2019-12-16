@@ -43,6 +43,7 @@ public class ClassmatePresenter implements ClassmateContract.presenter {
 
     @Override
     public void search(String keyword) {
+        Log.d(TAG, "search: " + keyword);
         mIClassmateModel.searchStudentsList(keyword, new IBaseModel.OnGetSuccessCallBack<List<StudentInfo>>() {
             @Override
             public void onGetSuccess(List<StudentInfo> studentInfos) {
@@ -53,40 +54,39 @@ public class ClassmatePresenter implements ClassmateContract.presenter {
             public void onGetFail() {
                 mView.showData(new ArrayList<StudentInfo>());
             }
-        });
+        }, studentInfoList);
     }
 
     @Override
     public void start() {
         mView.showLoading(true);
-        mIClassmateModel.getStudentsFromNet()
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onCompleted() {
+        studentInfoList.clear();
+                         mIClassmateModel.getStudentsFromNet()
+                         .subscribe(new Observer<String>() {
+                        @Override
+                        public void onCompleted() {
                         mView.showLoading(false);
                         mView.showData(studentInfoList);
-                        Log.d(TAG, "onCompleted: ");
-                    }
+                        }
 
-                    @Override
-                    public void onError(Throwable throwable) {
-                        Log.d(TAG, "onError: ");
+                        @Override
+                        public void onError(Throwable throwable) {
                         mView.showWarningMessage("请连接校园网查看");
                         throwable.printStackTrace();
-                    }
+                        }
 
-                    @Override
-                    public void onNext(String s) {
+                        @Override
+                        public void onNext(String s) {
 
                         /**
                          * <tr class="gridview_row">
-                         *                          <td>2016401088</td>
-                         *                          <td>刘美琪</td>
-                         *                          <td>女</td>
-                         *                          <td>工学大类(2016) </td>
-                         *                          <td align="center">0</td>
-                         *                          <td>&nbsp;</td>
-                         *                          </tr>
+                         * <td>2016401088</td>
+                         * <td>刘美琪</td>
+                         * <td>女</td>
+                         * <td>工学大类(2016) </td>
+                         * <td align="center">0</td>
+                         * <td>&nbsp;</td>
+                         * </tr>
                          */
 
                         document = Jsoup.parseBodyFragment(s);
@@ -94,9 +94,6 @@ public class ClassmatePresenter implements ClassmateContract.presenter {
                         int numOfStudents = (allTdEle.size() - 17) / 6;
                         Log.d(TAG, "onNext: " + numOfStudents);
                         int i = 0, j = 18;
-//                        for (Element element : allTdEle) {
-//                            Log.d(TAG, "onNext: " + element);
-//                        }
                         //第19个数据开始都是有价值的数据，每个六个数据项（为同一人）new 一个对象
                         while (i < numOfStudents) {
                             StudentInfo studentInfo = new StudentInfo();
@@ -111,15 +108,6 @@ public class ClassmatePresenter implements ClassmateContract.presenter {
                             studentInfoList.add(studentInfo);
                             i++;
                         }
-//                        for (int i = 0; i < allTdEle.size(); i++) {
-//                            if ((i - 18) % 6 == 0) studentInfo.setNumber(allTdEle.get(i).text());
-//                            if ((i - 18) % 6 == 1) studentInfo.setName(allTdEle.get(i).text());
-//                            if ((i - 18) % 6 == 2) studentInfo.setGender(allTdEle.get(i).text());
-//                            if ((i - 18) % 6 == 3) {
-//                                studentInfo.setMajor(allTdEle.get(i).text());
-//                                studentInfoList.add(studentInfo);
-//                            }
-//                        }
                     }
                 });
     }
