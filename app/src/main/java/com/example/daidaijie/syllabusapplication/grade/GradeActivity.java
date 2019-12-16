@@ -165,9 +165,8 @@ public class GradeActivity extends BaseActivity implements GradeContract.view, S
 
     @Override
     public void showNotFound(boolean isShow) {
-        if (notFoundLayout.getVisibility() == View.GONE) {
-            notFoundLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
-        }
+        notFoundLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        notFoundLayout.postInvalidate();
     }
 
     @Override

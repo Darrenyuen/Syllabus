@@ -1,7 +1,5 @@
 package com.example.daidaijie.syllabusapplication.grade;
 
-import android.util.Log;
-
 import com.example.daidaijie.syllabusapplication.bean.GradeStore;
 import com.example.daidaijie.syllabusapplication.di.scope.PerActivity;
 
@@ -75,17 +73,16 @@ public class GradePresenter implements GradeContract.presenter {
 
                     @Override
                     public void onNext(GradeStore gradeStore) {
+                        mView.showNotFound(false);
                         if (gradeStore != null) {
                             if (gradeStore.getSemesterGrades().size() == 0) {
                                 mView.showInfoMessage("暂无成绩");
                             } else {
-                                Log.d(TAG, "onNext: " + gradeStore.getCredit());
                                 mView.setData(gradeStore.getSemesterGrades());
                                 mView.showSuccessMessage("更新成功");
                             }
                         }else {
-//                            mView.showInfoMessage("暂无成绩");
-                            mView.showNotFound(true);
+                            mView.showInfoMessage("暂无成绩");
                         }
                         mView.setHeader(gradeStore);
                     }
